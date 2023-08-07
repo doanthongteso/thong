@@ -4,6 +4,7 @@ import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/auth/OTP.dart';
 import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/component/validator.dart';
+import 'package:loyalty/screen/auth/register.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String id = "register_screen";
@@ -31,34 +32,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ));
 
       Map<String, dynamic> userData = {
-        "Email": [
-          {
-            "Type": "Primary",
-            "Value": emailController.text,
-          }
-        ],
-        "Password": passwordController.text,
-        "About": 'I am a new user :smile:',
-        "FirstName": "Test",
-        "LastName": "Account",
-        "FullName": "Test Account",
-        "BirthDate": "10-12-1985",
-        "Gender": "M",
+        "email": emailController.text,
+        "password": passwordController.text,
+        "name": nameController.text,
       };
 
       dynamic res = await _apiClient.registerUser(userData);
+      print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OTPScreen(email: emailController.text),
+        ),
+      );
 
-      if (res['ErrorCode'] == null) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res['Message']}'),
-          backgroundColor: Colors.red.shade300,
-        ));
-      }
+      // if (res['ErrorCode'] == null) {
+      //   Navigator.push(context,
+      //       MaterialPageRoute(builder: (context) => const LoginScreen()));
+      // } else {
+      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text('Error: ${res['Message']}'),
+      //     backgroundColor: Colors.red.shade300,
+      //   ));
+      // }
     }
   }
 
@@ -192,13 +190,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       //onPressed: registerUsers ,
-                      onPressed: () {
-                        registerUsers();
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return OTPScreen();
-                          },
-                        ));
+
+                      onPressed: () => {
+                        registerUsers(),
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const OTPScreen()),
+                        // ),
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Colors.indigo,

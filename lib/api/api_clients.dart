@@ -6,10 +6,8 @@ class ApiClient {
 
   Future<dynamic> registerUser(Map<String, dynamic>? data) async {
     try {
-      Response response = await _dio.post(
-          'https://api.loginradius.com/identity/v2/auth/register',
+      Response response = await _dio.post('http://127.0.0.1:3000/register',
           data: data,
-          queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
       return response.data;
     } on DioError catch (e) {
@@ -33,6 +31,18 @@ class ApiClient {
       return e.response!.data;
     }
   }
+
+  Future<dynamic> verifyOTP(Map<String, dynamic>? data) async {
+    try {
+      Response response = await _dio.post('http://127.0.0.1:3000/verify',
+          data: data,
+          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
   // Future<dynamic> login(String email, String password) async {
   //   try {
   //     Response response = await _dio.post(

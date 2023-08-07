@@ -6,15 +6,16 @@ import '../../component/validator.dart';
 import '../home/home.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({Key? key}) : super(key: key);
+  const OTPScreen({Key? key, required email}) : super(key: key);
+  final String email;
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
 
 class _OTPScreenState extends State<OTPScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
+
   final ApiClient _apiClient = ApiClient();
   // final ApiClient _test = testLoginAPI();
   bool _showPassword = false;
@@ -26,10 +27,8 @@ class _OTPScreenState extends State<OTPScreen> {
         backgroundColor: Colors.green.shade300,
       ));
 
-      dynamic res = await _apiClient.login(
-        emailController.text,
-        passwordController.text,
-      );
+      dynamic res =
+          await _apiClient.verifyOTP({"email": "", "otp": otpController.text});
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
@@ -79,7 +78,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
                         SizedBox(height: size.height * 0.06),
                         TextFormField(
-                          controller: emailController,
+                          controller: otpController,
                           validator: (value) {
                             return Validator.validateNumber(value ?? "");
                           },
