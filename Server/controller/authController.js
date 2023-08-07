@@ -33,12 +33,35 @@ const register = async (req, res) => {
       address: "default",
     };
     const otp = generateOTP();
-    //await OTP.create({ otp: otp, expireTime: new Date().toISOString().slice(0, -1)});
+    await OTP.create({
+      otp: otp,
+      email: email.toLowerCase(),
+    });
     const user = await User.create(newUser);
 
-    sendOTP("nguyendoanthe0610@gmail.com", otp);
+    sendOTP(email, otp);
     // return new user
     res.status(201).json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const checkOtp = await OTP.findOne({ where: { email: email, otp: otp } });
+    if (!checkOtp) {
+      return res.status(409).send("Wrong OTP");
+    }
+    console.log(checkOtp);
+    const user = await User.update(
+      { isActive: true },
+      { where: { email: email } }
+    );
+    await OTP.destroy({ where: { email: email } });
+    // return new user
+    res.status(200).json("verified");
   } catch (err) {
     console.log(err);
   }
@@ -79,4 +102,4 @@ const login = async (req, res) => {
     console.log(err);
   }
 };
-export { register, login };
+export { register, login, verifyOtp };
