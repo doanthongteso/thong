@@ -6,6 +6,8 @@ import 'package:loyalty/screen/home/home.dart';
 import 'package:loyalty/component/validator.dart';
 import 'package:loyalty/api/api_test.dart';
 import 'package:loyalty/screen/auth/register.dart';
+import 'dart:io';
+import 'dart:html';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,6 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordController.text,
       );
       print('hahahaha');
+      document.cookie = "accessToken=" + res['token'];
+
+      //print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 

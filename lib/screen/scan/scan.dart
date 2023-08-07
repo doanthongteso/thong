@@ -1,5 +1,6 @@
 //import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:loyalty/screen/scan/scan_info.dart';
 //import 'package:flutter/services.dart';
 
 import '../../component/validator.dart';
@@ -65,7 +66,13 @@ class _ScanScreenState extends State<ScanScreen> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return ScanInfoScreen();
+                                    },
+                                  ));
+                                },
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.indigo,
                                     shape: RoundedRectangleBorder(

@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from 'dotenv'
+import cors from 'cors';
 
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
@@ -18,6 +19,7 @@ app.use(
   })
 );
 
+app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/user", userRoute);

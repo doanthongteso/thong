@@ -140,7 +140,7 @@ class RecipeDetails extends StatelessWidget {
                                             .unselectedWidgetColor),
                                   ),
                                   Text(
-                                    '13/01/2022',
+                                    'Còn lại 999',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Theme.of(context)
@@ -151,589 +151,52 @@ class RecipeDetails extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Text(
-                            'Dành cho: 6 người',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).primaryColorDark),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Đánh giá: ',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Theme.of(context).primaryColorDark),
-                              ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                                child: Text(
-                                  'Tốt cho sức khỏe',
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.white),
-                                ),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50)),
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Text(
-                            'Nguyên liệu',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).primaryColorDark,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 8),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print('Tapped');
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                                width: 0.2))),
-                                    child: Row(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Container(
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        "https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png"),
-                                                    fit: BoxFit.cover),
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 8,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Tên nguyên liệu',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .primaryColorDark,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              'Số lượng: 10kg',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: 8),
+                        //   child: Text(
+                        //     'Dành cho: 6 người',
+                        //     style: TextStyle(
+                        //         fontSize: 16,
+                        //         color: Theme.of(context).primaryColorDark),
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: 8),
+                        //   child: Row(
+                        //     children: [
+                        //       Text(
+                        //         'Đánh giá: ',
+                        //         style: TextStyle(
+                        //             fontSize: 16,
+                        //             color: Theme.of(context).primaryColorDark),
+                        //       ),
+                        //       Container(
+                        //         padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                        //         child: Text(
+                        //           'Tốt cho sức khỏe',
+                        //           style: TextStyle(
+                        //               fontSize: 14, color: Colors.white),
+                        //         ),
+                        //         decoration: BoxDecoration(
+                        //           shape: BoxShape.rectangle,
+                        //           borderRadius:
+                        //               BorderRadius.all(Radius.circular(50)),
+                        //           color: Colors.green,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: 8),
+                        //   child: Text(
+                        //     'Nguyên liệu',
+                        //     style: TextStyle(
+                        //         fontSize: 16,
+                        //         color: Theme.of(context).primaryColorDark,
+                        //         fontWeight: FontWeight.w700),
+                        //   ),
+                        // ),
                         Padding(
                           padding: EdgeInsets.only(top: 8),
                           child: Text(
@@ -770,7 +233,7 @@ class RecipeDetails extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Center(
                         child: Text(
-                      'Bắt đầu',
+                      'Đổi quà',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )),
                   ),

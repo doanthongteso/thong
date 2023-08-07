@@ -20,13 +20,14 @@ class ApiClient {
   Future<dynamic> login(String email, String password) async {
     try {
       Response response = await _dio.post(
-        'http://127.0.0.1:5000/taikhoan/dangnhap',
+        'http://127.0.0.1:3000/login',
         data: {
           'email': email,
           'password': password,
         },
         //queryParameters: {'apikey': ApiSecret.apiKey},
       );
+      print(response);
       return response.data;
     } on DioError catch (e) {
       return e.response!.data;
