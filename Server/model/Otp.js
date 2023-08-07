@@ -8,8 +8,8 @@ const OTP = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    expireTime: {
-      type: DataTypes.TIME,
+    email: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
