@@ -13,7 +13,6 @@ const getUserByEmail = async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.findOne({ where: { email: email } });
-    console.log(email);
     res.status(200).json({ user });
   } catch (error) {
     console.error(error);
