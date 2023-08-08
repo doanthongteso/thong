@@ -34,10 +34,11 @@ class ApiClient {
 
   Future<dynamic> verifyOTP(Map<String, dynamic>? data) async {
     try {
-      Response response = await _dio.post('http://127.0.0.1:3000/verify',
-          data: data,
-          //options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott})
-          );
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/verify',
+        data: data,
+        //options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott})
+      );
       return response;
     } on DioError catch (e) {
       return e.response!.data;

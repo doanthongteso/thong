@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loyalty/screen/home/exchangeGiftInfo.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class RecipeDetails extends StatelessWidget {
@@ -223,7 +224,11 @@ class RecipeDetails extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    print('Start');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ExchangeGiftInfo()),
+                    );
                   },
                   child: Container(
                     height: 44,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loyalty/screen/person/myadress.dart';
+import 'package:loyalty/screen/person/mygift.dart';
 
 class PersonScreen extends StatefulWidget {
   const PersonScreen({Key? key}) : super(key: key);
@@ -93,7 +95,12 @@ class _PersonScreenState extends State<PersonScreen> {
           ),
           GestureDetector(
             onTap: () {
-              print('Mine');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyGiftScreen(),
+                ),
+              );
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -171,7 +178,12 @@ class _PersonScreenState extends State<PersonScreen> {
           ),
           GestureDetector(
             onTap: () {
-              print('Professor');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddressScreen(),
+                ),
+              );
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
