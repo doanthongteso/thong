@@ -25,8 +25,8 @@ class ApiClient {
         },
         //queryParameters: {'apikey': ApiSecret.apiKey},
       );
-      print(response);
-      return response.data;
+      print(response.statusCode);
+      return response;
     } on DioError catch (e) {
       return e.response!.data;
     }
@@ -36,7 +36,8 @@ class ApiClient {
     try {
       Response response = await _dio.post('http://127.0.0.1:3000/verify',
           data: data,
-          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+          //options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott})
+          );
       return response;
     } on DioError catch (e) {
       return e.response!.data;
@@ -62,12 +63,12 @@ class ApiClient {
   Future<dynamic> getUserProfileData(String accessToken) async {
     try {
       Response response = await _dio.get(
-        'https://api.loginradius.com/identity/v2/auth/account',
-        queryParameters: {'apikey': ApiSecret.apiKey},
+        'http://127.0.0.1:3000/api/user/email',
         options: Options(
           headers: {'Authorization': 'Bearer $accessToken'},
         ),
       );
+      print(response);
       return response.data;
     } on DioError catch (e) {
       return e.response!.data;

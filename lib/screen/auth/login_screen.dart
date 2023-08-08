@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:loyalty/api/api_clients.dart';
+import 'package:loyalty/screen/BottomNavigationLayout.dart';
 import 'package:loyalty/screen/auth/forgotpassword.dart';
 import 'package:loyalty/screen/home/home.dart';
 import 'package:loyalty/component/validator.dart';
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final ApiClient _apiClient = ApiClient();
   // final ApiClient _test = testLoginAPI();
   bool _showPassword = false;
-
+  
   Future<void> login() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -31,28 +32,27 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.green.shade300,
       ));
 
-      print(emailController.text);
-      print(passwordController.text);
       dynamic res = await _apiClient.login(
         emailController.text,
         passwordController.text,
       );
-      print('hahahaha');
-      document.cookie = "accessToken=" + res['token'];
+      print(res);
+      print(res.statusCode);
+      document.cookie = "accessToken=" + res.data['token'];
 
       //print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-      if (res['message'] == 'Logged in') {
-        String accessToken = res['accessToken'];
+      if (res.statusCode == 200) {
+        String accessToken = res.data['token'];
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeScreen(accesstoken: accessToken)));
+                builder: (context) => BottomNavigationLayout()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res['message']}'),
+          content: Text('Error: ${res.data['message']}'),
           backgroundColor: Colors.red.shade300,
         ));
       }

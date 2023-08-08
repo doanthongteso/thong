@@ -6,7 +6,7 @@ import '../../component/validator.dart';
 import '../home/home.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({Key? key, required email}) : super(key: key);
+  const OTPScreen({Key? key, required this.email}) : super(key: key);
   final String email;
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -20,16 +20,18 @@ class _OTPScreenState extends State<OTPScreen> {
   // final ApiClient _test = testLoginAPI();
   bool _showPassword = false;
 
-  Future<void> forgotpassword() async {
+  Future<void> verifyHandler() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Processing Data'),
         backgroundColor: Colors.green.shade300,
       ));
 
-      dynamic res =
-          await _apiClient.verifyOTP({"email": "", "otp": otpController.text});
-
+      print("bf00");
+      dynamic res = await _apiClient
+          .verifyOTP({"email": widget.email, "otp": otpController.text});
+      print("af");
+      print(res);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       if (res['message'] == 'Logged in') {
@@ -98,7 +100,7 @@ class _OTPScreenState extends State<OTPScreen> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: forgotpassword,
+                                onPressed: verifyHandler,
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.indigo,
                                     shape: RoundedRectangleBorder(

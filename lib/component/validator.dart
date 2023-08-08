@@ -52,7 +52,7 @@ class Validator {
   }
 
   static String? validateNumber(String value) {
-    if (value.length != 4) {
+    if (value.length != 6) {
       return '🚩 Number is not valid.';
     } else {
       return null;

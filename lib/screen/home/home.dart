@@ -12,11 +12,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ApiClient _apiClient = ApiClient();
-
+  
   Future<Map<String, dynamic>> getUserData() async {
     dynamic userRes;
     userRes = await _apiClient.getUserProfileData(widget.accesstoken);
-    return userRes;
+    
+    return userRes["user"];
   }
 
   Future<void> logout() async {
@@ -47,12 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 }
-                String fullName = snapshot.data!['FullName'];
-                String firstName = snapshot.data!['FirstName'];
-                String lastName = snapshot.data!['LastName'];
-                String birthDate = snapshot.data!['BirthDate'];
-                String email = snapshot.data!['Email'][0]['Value'];
-                String gender = snapshot.data!['Gender'];
+                String fullName = snapshot.data!['name'];
+                String firstName = "no data";
+                String lastName = "no data";
+                String birthDate = "no data";
+                String email = snapshot.data!['email'];
+                String gender = "no data";
 
                 return Container(
                   width: size.width,

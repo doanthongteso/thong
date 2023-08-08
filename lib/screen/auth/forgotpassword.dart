@@ -103,11 +103,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 //onPressed: forgotpassword,
                                 onPressed: () {
                                   forgotpassword();
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return OTPScreen();
-                                    },
-                                  ));
+                                  // Navigator.push(context, MaterialPageRoute(
+                                  //   builder: (context) {
+                                  //     return OTPScreen();
+                                  //   },
+                                  // ));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.indigo,
