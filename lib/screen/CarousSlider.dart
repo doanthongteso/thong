@@ -1,25 +1,47 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../api/api_clients.dart';
+
 class CarouseSliderHome extends StatefulWidget {
+  @override
+  _CarouseSliderHomeState createState() => _CarouseSliderHomeState();
+}
+
+class _CarouseSliderHomeState extends State<CarouseSliderHome> {
+  final ApiClient _apiClient = ApiClient();
+  Future<void> getBannerHome() async {
+    dynamic res = await _apiClient.getBanner();
+    print('haha');
+    print(res);
+    listItem.clear();
+    List listImgs = res as List;
+    res.forEach(
+      (element) => listItem.add(SlideItem(imageLink: element["imgUrl"])),
+    );
+    setState(() {});
+    //return res;
+  }
+
   var listItem = [
     SlideItem(imageLink: "assets/images/banner1.png"),
     SlideItem(imageLink: "assets/images/banner2.jfif"),
     SlideItem(imageLink: "assets/images/logo.jpg"),
   ];
 
-  @override
-  _CarouseSliderHomeState createState() => _CarouseSliderHomeState();
-}
-
-class _CarouseSliderHomeState extends State<CarouseSliderHome> {
   int current = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getBannerHome();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       CarouselSlider(
-        items: widget.listItem,
+        items: listItem,
         options: CarouselOptions(
           height: 150.0,
           autoPlay: true,
@@ -36,9 +58,9 @@ class _CarouseSliderHomeState extends State<CarouseSliderHome> {
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(widget.listItem.length, (i) => i + 1).map((e) {
+        children: List.generate(listItem.length, (i) => i + 1).map((e) {
           int listIndex =
-              List.generate(widget.listItem.length, (i) => i + 1).indexOf(e);
+              List.generate(listItem.length, (i) => i + 1).indexOf(e);
           return Container(
             width: current == listIndex ? 16 : 4,
             height: 4,
