@@ -109,4 +109,20 @@ class ApiClient {
       return e.response!.data;
     }
   }
+  // Gift
+
+  Future<dynamic> getGiftByCategory(String accessToken, String category) async {
+    try {
+      Response response = await _dio.get(
+        'http://127.0.0.1:3000/api/gift/$category',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      // print(response);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
 }

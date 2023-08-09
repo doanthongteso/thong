@@ -7,6 +7,7 @@ import cors from "cors";
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
 import productRoute from "./routes/productRoute.js";
+import productCodeRoute from "./routes/productCodeRoute.js";
 import bannerRoute from "./routes/bannerRoute.js";
 import giftRoute from "./routes/giftRoute.js";
 const app = express();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use("/", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/product", productRoute);
+app.use("/api/productCode", productCodeRoute);
 app.use("/api/banner", bannerRoute);
 app.use("/api/gift", giftRoute);
 

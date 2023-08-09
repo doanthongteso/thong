@@ -37,4 +37,5 @@ const deleteUser = async (req, res) => {
     console.error(error);
   }
 };
+
 export { getAllUser, getUserByEmail, updateUser, deleteUser };
