@@ -6,16 +6,20 @@ import '../CarousSlider.dart';
 import 'detailGift.dart';
 
 class HomePage extends StatelessWidget {
-  var recipeList = [
+  final dynamic data;
+  const HomePage({this.data});
+  
+
+  @override
+  Widget build(BuildContext context) {
+    var recipeList = [
     RecipeButton(),
     RecipeButton(),
     RecipeButton(),
     RecipeButton(),
     RecipeButton()
   ];
-
-  @override
-  Widget build(BuildContext context) {
+    print(data);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(

@@ -6,6 +6,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/history/history.dart';
 import 'package:loyalty/screen/person/person.dart';
 import 'package:loyalty/screen/scan/scan.dart';
@@ -14,15 +15,6 @@ import 'home/home_test.dart';
 import 'notification/notification.dart';
 
 class BottomNavigationLayout extends StatefulWidget {
-  List<Widget> listScreens = [
-    HomePage(),
-    HistoryScreen(),
-    ScanScreen(),
-    // CreatePage(),
-    NotificationPage(),
-    PersonScreen()
-  ];
-
   @override
   BottomNavigationLayoutState createState() {
     return BottomNavigationLayoutState();
@@ -32,9 +24,35 @@ class BottomNavigationLayout extends StatefulWidget {
 class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   int currentSelectedIndex = 0;
   bool isSearch = false;
+  final ApiClient _apiClient = ApiClient();
+  dynamic data;
+  List<Widget> listScreens = [];
+  String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE1OTUyODksImV4cCI6MTY5MTYwMjQ4OX0.p3bl4jIn8e-DSej2Qq_LwTg64paj2GYVz-klfWqRaqU";
+  @override
+  void initState() {
+    super.initState();
+    getGiftData();
+  }
+
+  void getGiftData() async {
+    data = await _apiClient.getGiftByCategory(token, "Hot");
+    // print(data);
+    setState(() {
+      listScreens = <Widget>[
+        HomePage(data: data),
+        HistoryScreen(),
+        ScanScreen(),
+        // CreatePage(),
+        NotificationPage(),
+        PersonScreen()
+      ];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -75,7 +93,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                         (currentSelectedIndex == 1)
                                             ? 'Lịch sử giao dịch'
                                             : (currentSelectedIndex == 2)
-                                                ? 'Tích điểm'
+                                                ? data.toString()
                                                 : (currentSelectedIndex == 3)
                                                     ? 'Thông báo'
                                                     : 'Cá nhân',
@@ -159,7 +177,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                           // child: SingleChildScrollView(
                           child: IndexedStack(
                             index: currentSelectedIndex,
-                            children: widget.listScreens,
+                            children: listScreens,
                           ),
                           // scrollDirection: Axis.vertical,
                           // )
