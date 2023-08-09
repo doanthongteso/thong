@@ -28,6 +28,10 @@ const Gift = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    imgUrl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     // options
