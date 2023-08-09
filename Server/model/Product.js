@@ -1,5 +1,6 @@
 import sequelize from "../db.js";
 import { Sequelize, DataTypes } from "sequelize";
+import ProductCode from "./ProductCode.js";
 const Product = sequelize.define(
   "product",
   {
@@ -17,5 +18,8 @@ const Product = sequelize.define(
     // options
   }
 );
+Product.hasMany(ProductCode);
+ProductCode.belongsTo(Product);
 Product.sync();
+ProductCode.sync();
 export default Product;

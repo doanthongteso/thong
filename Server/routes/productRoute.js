@@ -4,5 +4,5 @@ import { getAllProducts } from "../controller/productController.js";
 
 const router = Router();
 
-router.get("/", auth, getAllProducts);
+router.get("/", getAllProducts);
 export default router;

@@ -40,7 +40,7 @@ const giftExchange = async (req, res) => {
 
     return res.status(200).json({ message: "Successfully" });
   } catch (error) {
-    console.log(error);
+    console.log(error); 
   }
 };
 
