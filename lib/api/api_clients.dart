@@ -140,4 +140,22 @@ class ApiClient {
       return e.response!.data;
     }
   }
+
+  Future<dynamic> addPoint(String accessToken, String code) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/productCode/addPoint',
+        data: {
+          'productCode': code,
+        },
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      // print(response);
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
 }
