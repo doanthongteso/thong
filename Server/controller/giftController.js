@@ -1,4 +1,5 @@
 import Gift from "../model/Gift.js";
+import HistoryPoint from "../model/HistoryPoint.js";
 import User from "../model/User.js";
 const getAllGift = async (req, res) => {
   try {
@@ -38,9 +39,16 @@ const giftExchange = async (req, res) => {
     (await gift.update({ totalCount: gift.totalCount - 1 })).save();
     (await user.update({ totalPoint: user.totalPoint - gift.point })).save();
 
-    return res.status(200).json({ message: "Successfully" });
+    const history = await HistoryPoint.create({
+      type: 0,
+      point: product.product.point,
+      userId: user.id,
+      giftId: gift.id,
+    });
+
+    return res.status(200).json(history);
   } catch (error) {
-    console.log(error); 
+    console.log(error);
   }
 };
 

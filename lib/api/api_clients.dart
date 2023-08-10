@@ -126,6 +126,21 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> getAllGift(String accessToken) async {
+    try {
+      Response response = await _dio.get(
+        'http://127.0.0.1:3000/api/gift',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      // print(response);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
   Future<dynamic> getBanner() async {
     try {
       Response response = await _dio.get(

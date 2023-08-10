@@ -8,18 +8,23 @@ import 'detailGift.dart';
 class HomePage extends StatelessWidget {
   final dynamic data;
   const HomePage({this.data});
-  
 
   @override
   Widget build(BuildContext context) {
-    var recipeList = [
-    RecipeButton(),
-    RecipeButton(),
-    RecipeButton(),
-    RecipeButton(),
-    RecipeButton()
-  ];
-    print(data);
+    List<RecipeButton> hotRecipeList = [];
+    List<RecipeButton> cardRecipeList = [];
+    List<RecipeButton> newRecipeList = [];
+    // print(data);
+    data["gifts"].forEach((item) {
+      if (item["category"] == "Card") {
+        cardRecipeList.add(RecipeButton(data: item));
+      } else if (item["category"] == "Hot") {
+        hotRecipeList.add(RecipeButton(data: item));
+      } else if (item["category"] == "New") {
+        newRecipeList.add(RecipeButton(data: item));
+      }
+    });
+    // print(data["gifts"][0]);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -31,16 +36,17 @@ class HomePage extends StatelessWidget {
           CarouseSliderHome(),
           Column(
             children: [
-              HorizListCard(title: 'Quà tặng hấp dẫn', recipeList: recipeList),
+              HorizListCard(
+                  title: 'Quà tặng hấp dẫn', recipeList: hotRecipeList),
               Container(
                 height: 15,
               ),
-              HorizListCard(title: 'Quà tặng mới', recipeList: recipeList),
+              HorizListCard(title: 'Quà tặng mới', recipeList: hotRecipeList),
               Container(
                 height: 15,
               ),
               HorizListCard(
-                  title: 'Thẻ cào điện thoại', recipeList: recipeList),
+                  title: 'Thẻ cào điện thoại', recipeList: cardRecipeList),
             ],
           ),
         ],
@@ -102,6 +108,8 @@ class TitleHorizontalScroll extends StatelessWidget {
 }
 
 class RecipeButton extends StatelessWidget {
+  final dynamic data;
+  const RecipeButton({this.data});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -111,11 +119,13 @@ class RecipeButton extends StatelessWidget {
             MaterialPageRoute(builder: (context) => RecipeDetails()),
           );
         },
-        child: RecipeItem());
+        child: RecipeItem(data: data));
   }
 }
 
 class RecipeItem extends StatelessWidget {
+  final dynamic data;
+  const RecipeItem({this.data});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,7 +150,7 @@ class RecipeItem extends StatelessWidget {
             height: 130,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage("assets/images/logo.jpg"),
+                  image: NetworkImage(data["imgUrl"]),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(
@@ -154,7 +164,7 @@ class RecipeItem extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Tên quà tặng',
+                    data["name"],
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -167,7 +177,7 @@ class RecipeItem extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Nhà phân phối',
+                    data["vendor"],
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w300,
@@ -190,9 +200,9 @@ class RecipeItem extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          '6',
+                          data["point"].toString(),
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w300,
                               color: Colors.black87),
                         )
@@ -209,9 +219,9 @@ class RecipeItem extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          '999',
+                          data["totalCount"].toString(),
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w300,
                               color: Colors.black87),
                         )

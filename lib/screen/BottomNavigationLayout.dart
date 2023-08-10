@@ -28,7 +28,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   dynamic data;
   List<Widget> listScreens = [];
   String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE1OTUyODksImV4cCI6MTY5MTYwMjQ4OX0.p3bl4jIn8e-DSej2Qq_LwTg64paj2GYVz-klfWqRaqU";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2NjM3NzYsImV4cCI6MTY5MTY3MDk3Nn0.8w_I0H39AGCLRD_BbG81UNuGZvUbTB3723PWVm4Ze_k";
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   }
 
   void getGiftData() async {
-    data = await _apiClient.getGiftByCategory(token, "Hot");
+    data = await _apiClient.getAllGift(token);
     // print(data);
     setState(() {
       listScreens = <Widget>[

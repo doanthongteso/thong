@@ -12,8 +12,6 @@ class _CarouseSliderHomeState extends State<CarouseSliderHome> {
   final ApiClient _apiClient = ApiClient();
   Future<void> getBannerHome() async {
     dynamic res = await _apiClient.getBanner();
-    print('haha');
-    print(res);
     listItem.clear();
     List listImgs = res as List;
     res.forEach(

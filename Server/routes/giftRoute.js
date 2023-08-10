@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { getAllGift, getGiftByCategory, giftExchange } from "../controller/giftController.js";
+import auth from "../middleware/auth.js";
+
+import {
+  getAllGift,
+  getGiftByCategory,
+  giftExchange,
+} from "../controller/giftController.js";
 
 const router = Router();
 
-router.get("/", getAllGift);
-router.get("/:category", getGiftByCategory);
-router.post("/exchange", giftExchange)
+router.get("/", auth, getAllGift);
+router.get("/:category", auth, getGiftByCategory);
+router.post("/exchange", auth, giftExchange);
 export default router;

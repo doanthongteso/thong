@@ -10,6 +10,7 @@ import productRoute from "./routes/productRoute.js";
 import productCodeRoute from "./routes/productCodeRoute.js";
 import bannerRoute from "./routes/bannerRoute.js";
 import giftRoute from "./routes/giftRoute.js";
+import historyPointRoute from "./routes/historyPointRoute.js";
 const app = express();
 
 dotenv.config();
@@ -31,6 +32,7 @@ app.use("/api/product", productRoute);
 app.use("/api/productCode", productCodeRoute);
 app.use("/api/banner", bannerRoute);
 app.use("/api/gift", giftRoute);
+app.use("/api/historyPoint", historyPointRoute);
 
 app.listen(port, () => {
   console.log(`Server listening on the port  ${port}`);

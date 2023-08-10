@@ -1,3 +1,4 @@
+import HistoryPoint from "../model/HistoryPoint.js";
 import Product from "../model/Product.js";
 import ProductCode from "../model/ProductCode.js";
 import User from "../model/User.js";
@@ -29,7 +30,13 @@ const addPoint = async (req, res) => {
       await user.update({ totalPoint: user.totalPoint + product.product.point })
     ).save();
     (await product.update({ status: false })).save();
-    res.status(200).json({ user, product });
+    const history = await HistoryPoint.create({
+      type: 1,
+      point: product.product.point,
+      userId: user.id,
+      productCodeId: product.id,
+    });
+    res.status(200).json({ history });
   } catch (error) {
     console.error(error);
   }
