@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loyalty/screen/home/home.dart';
+import 'package:loyalty/screen/person/changepassword.dart';
 import 'package:loyalty/screen/person/myadress.dart';
 import 'package:loyalty/screen/person/mygift.dart';
 
 class PersonScreen extends StatefulWidget {
   const PersonScreen({Key? key}) : super(key: key);
+
   @override
   State<PersonScreen> createState() => _PersonScreenState();
 }
 
 class _PersonScreenState extends State<PersonScreen> {
+  String accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2OTY4NzMsImV4cCI6MTY5MTcwNDA3M30.kppS8HzGyWBpJoi3Q-ExdHwD0uyX6wivNc12puODC9U";
   @override
   @override
   Widget build(BuildContext context) {
@@ -16,11 +22,11 @@ class _PersonScreenState extends State<PersonScreen> {
       child: Column(
         children: [
           GestureDetector(
-            // onTap: () {
-            //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //     return MyInfo();
-            //   }));
-            // },
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeScreen(accesstoken: accessToken);
+              }));
+            },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
               child: Container(
@@ -69,7 +75,7 @@ class _PersonScreenState extends State<PersonScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Edit profile',
+                                    'Chỉnh sửa',
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)
@@ -137,45 +143,45 @@ class _PersonScreenState extends State<PersonScreen> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              print('Saved');
-            },
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-              child: Container(
-                padding: EdgeInsets.all(16),
-                height: 70,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 7,
-                      )
-                    ]),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.gif_box_outlined,
-                      size: 24,
-                    ),
-                    Container(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Đã lưu',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Icon(Icons.navigate_next_rounded)
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     print('Saved');
+          //   },
+          //   child: Padding(
+          //     padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+          //     child: Container(
+          //       padding: EdgeInsets.all(16),
+          //       height: 70,
+          //       decoration: BoxDecoration(
+          //           color: Colors.white,
+          //           borderRadius: BorderRadius.all(Radius.circular(15)),
+          //           boxShadow: [
+          //             BoxShadow(
+          //               color: Colors.grey.withOpacity(0.2),
+          //               blurRadius: 7,
+          //             )
+          //           ]),
+          //       child: Row(
+          //         children: [
+          //           Icon(
+          //             Icons.gif_box_outlined,
+          //             size: 24,
+          //           ),
+          //           Container(
+          //             width: 8,
+          //           ),
+          //           Expanded(
+          //             child: Text(
+          //               'Đã lưu',
+          //               style: TextStyle(fontSize: 16),
+          //             ),
+          //           ),
+          //           Icon(Icons.navigate_next_rounded)
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -222,7 +228,12 @@ class _PersonScreenState extends State<PersonScreen> {
           ),
           GestureDetector(
             onTap: () {
-              print('Password');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChangePassWordScreen(),
+                ),
+              );
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -288,7 +299,7 @@ class _PersonScreenState extends State<PersonScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        'Tiếng Việt',
+                        'Chính sách thành viên',
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

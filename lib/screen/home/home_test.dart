@@ -118,7 +118,7 @@ class RecipeButton extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RecipeDetails()),
+            MaterialPageRoute(builder: (context) => RecipeDetails(data: data)),
           );
         },
         child: RecipeItem(data: data));

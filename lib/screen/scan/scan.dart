@@ -1,5 +1,6 @@
 //import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loyalty/screen/scan/scan_info.dart';
 //import 'package:flutter/services.dart';
 
@@ -16,15 +17,34 @@ class _ScanScreenState extends State<ScanScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController codeController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
-  String accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2MDExMTgsImV4cCI6MTY5MTYwODMxOH0.keqR0UN5L-yPTRnBr4RtP63oJ0XW7YXC5NeJOhdVgT8";
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
+  void _showFailPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mã CODE không đúng'),
+          content: Text('Vui lòng kiểm tra lại mã CODE'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> scanCode() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Processing Data'),
         backgroundColor: Colors.green.shade300,
       ));
-
+      String accessToken = (await storage.read(key: 'accessToken')).toString();
       dynamic res = await _apiClient.addPoint(accessToken, codeController.text);
 
       print(res);
@@ -35,17 +55,14 @@ class _ScanScreenState extends State<ScanScreen> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       if (res.statusCode == 200) {
-        //String accessToken = res.data['token'];
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return ScanInfoScreen();
           },
         ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res.data['message']}'),
-          backgroundColor: Colors.red.shade300,
-        ));
+      }
+      if (res['message'] == 'Used') {
+        _showFailPopup();
       }
     }
   }

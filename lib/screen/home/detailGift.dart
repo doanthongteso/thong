@@ -4,6 +4,9 @@ import 'package:loyalty/screen/home/exchangeGiftInfo.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class RecipeDetails extends StatelessWidget {
+  final dynamic data;
+  const RecipeDetails({this.data});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,8 +16,7 @@ class RecipeDetails extends StatelessWidget {
             height: 3 * MediaQuery.of(context).size.height / 5,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage("assets/images/banner1.png"),
-                    fit: BoxFit.cover)),
+                    image: NetworkImage(data["imgUrl"]), fit: BoxFit.cover)),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(16, 32, 16, 0),
@@ -79,7 +81,7 @@ class RecipeDetails extends StatelessWidget {
                       child:
                           ListView(scrollDirection: Axis.vertical, children: [
                         Text(
-                          'Tên quà tặng',
+                          data["name"],
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w800),
                         ),
@@ -94,12 +96,11 @@ class RecipeDetails extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        image: NetworkImage(
-                                            "assets/images/banner1.png"),
+                                        image: NetworkImage(data["imgUrl"]),
                                         fit: BoxFit.cover)),
                               ),
                               Text(
-                                'Nhà phân phối',
+                                data["vendor"],
                                 style: TextStyle(fontSize: 16),
                               )
                             ],
@@ -141,7 +142,7 @@ class RecipeDetails extends StatelessWidget {
                                             .unselectedWidgetColor),
                                   ),
                                   Text(
-                                    'Còn lại 999',
+                                    'Còn lại ${data['totalCount'].toString()}',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Theme.of(context)
@@ -211,7 +212,7 @@ class RecipeDetails extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(top: 8),
                           child: Text(
-                            'Đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả.\nĐoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả đoạn mô tả.',
+                            data["description"],
                             style: TextStyle(
                               fontSize: 16,
                               color: Theme.of(context).primaryColorDark,
