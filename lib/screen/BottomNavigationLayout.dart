@@ -28,22 +28,27 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
 
   int currentSelectedIndex = 0;
   bool isSearch = false;
-  dynamic data;
   List<Widget> listScreens = [];
 
   @override
   void initState() {
     super.initState();
-    getGiftData();
+    getData();
   }
 
-  void getGiftData() async {
+  void getData() async {
+    dynamic userRes;    
+    dynamic data;
+    
     String token = (await storage.read(key: 'accessToken')).toString();
     data = await _apiClient.getAllGift(token);
+
+    userRes = await _apiClient.getUserProfileData(token);
+
     // print(data);
     setState(() {
       listScreens = <Widget>[
-        HomePage(data: data),
+        HomePage(data: data, userProfile: userRes["user"]),
         HistoryScreen(),
         ScanScreen(),
         // CreatePage(),
@@ -95,7 +100,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                         (currentSelectedIndex == 1)
                                             ? 'Lịch sử giao dịch'
                                             : (currentSelectedIndex == 2)
-                                                ? data.toString()
+                                                ? "Tích điểm"
                                                 : (currentSelectedIndex == 3)
                                                     ? 'Thông báo'
                                                     : 'Cá nhân',

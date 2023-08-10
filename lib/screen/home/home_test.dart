@@ -7,7 +7,8 @@ import 'detailGift.dart';
 
 class HomePage extends StatelessWidget {
   final dynamic data;
-  const HomePage({this.data});
+  final dynamic userProfile;
+  const HomePage({this.data, this.userProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +26,14 @@ class HomePage extends StatelessWidget {
       }
     });
     // print(data["gifts"][0]);
+    print(userProfile);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
           Align(
             alignment: Alignment.topRight,
-            child: Text('1000 Point'),
+            child: Text("${userProfile["totalPoint"]} Point"),
           ),
           CarouseSliderHome(),
           Column(
