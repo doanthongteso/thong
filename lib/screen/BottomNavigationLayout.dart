@@ -10,6 +10,7 @@ import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/history/history.dart';
 import 'package:loyalty/screen/person/person.dart';
 import 'package:loyalty/screen/scan/scan.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'home/home_test.dart';
 import 'notification/notification.dart';
@@ -22,13 +23,14 @@ class BottomNavigationLayout extends StatefulWidget {
 }
 
 class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
+  final storage = const FlutterSecureStorage();
+  final ApiClient _apiClient = ApiClient();
+
   int currentSelectedIndex = 0;
   bool isSearch = false;
-  final ApiClient _apiClient = ApiClient();
   dynamic data;
   List<Widget> listScreens = [];
-  String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2NjM3NzYsImV4cCI6MTY5MTY3MDk3Nn0.8w_I0H39AGCLRD_BbG81UNuGZvUbTB3723PWVm4Ze_k";
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   }
 
   void getGiftData() async {
+    String token = (await storage.read(key: 'accessToken')).toString();
     data = await _apiClient.getAllGift(token);
     // print(data);
     setState(() {
@@ -52,7 +55,6 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: Padding(

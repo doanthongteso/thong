@@ -40,6 +40,7 @@ dependencies:
   solid_bottom_sheet: ^0.1.10
   carousel_slider: ^4.2.1
   flutter_slidable: ^3.0.0
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:

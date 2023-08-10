@@ -9,6 +9,7 @@ import 'package:loyalty/api/api_test.dart';
 import 'package:loyalty/screen/auth/register.dart';
 import 'dart:io';
 import 'dart:html';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,9 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
+  final storage = const FlutterSecureStorage();
   // final ApiClient _test = testLoginAPI();
   bool _showPassword = false;
-  
+
   Future<void> login() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -38,7 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       print(res);
       print(res.statusCode);
-      document.cookie = "accessToken=" + res.data['token'];
+
+// Write value
+      FlutterSecureStorage.setMockInitialValues({});
+      await storage.write(key: 'accessToken', value: res.data['token']);
 
       //print(res);
 
@@ -46,10 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (res.statusCode == 200) {
         String accessToken = res.data['token'];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BottomNavigationLayout()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BottomNavigationLayout()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Error: ${res.data['message']}'),
