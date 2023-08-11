@@ -48,21 +48,19 @@ class _ScanScreenState extends State<ScanScreen> {
       dynamic res = await _apiClient.addPoint(accessToken, codeController.text);
 
       print(res);
-      print(res.statusCode);
+      // print(res.statusCode);
 
       //print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-      if (res.statusCode == 200) {
+      if (res['message'] == 'Used') {
+        _showFailPopup();
+      } else if (res.statusCode == 200) {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return ScanInfoScreen();
           },
         ));
-      }
-      if (res['message'] == 'Used') {
-        _showFailPopup();
       }
     }
   }

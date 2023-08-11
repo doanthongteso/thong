@@ -21,15 +21,19 @@ import '../SlidableButton.dart';
 // }
 
 class HistoryScreen extends StatelessWidget {
+  final dynamic data;
+  const HistoryScreen({this.data});
   @override
   Widget build(BuildContext context) {
+    print("History screen");
+    print(data);
     return Column(
       children: [
         Container(
           height: 10,
         ),
         Expanded(
-          child: NotificationList(),
+          child: NotificationList(data: data),
         ),
       ],
     );
@@ -37,18 +41,17 @@ class HistoryScreen extends StatelessWidget {
 }
 
 class NotificationList extends StatelessWidget {
-  List<Widget> messageList = [
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-  ];
+  final dynamic data;
+  const NotificationList({this.data});
 
   Widget build(BuildContext context) {
+    print("notify");
+    print(data);
+    List<Widget> messageList = [];
+
+    data.forEach((item) {
+      messageList.add(NotificationItem(data: item));
+    });
     return Container(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -60,10 +63,12 @@ class NotificationList extends StatelessWidget {
 }
 
 class NotificationNOption extends StatelessWidget {
+  final dynamic data;
+  const NotificationNOption({this.data});
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      child: NotificationItem(),
+      child: NotificationItem(data: data),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
         children: [
@@ -92,6 +97,8 @@ class NotificationNOption extends StatelessWidget {
 }
 
 class NotificationItem extends StatelessWidget {
+  final dynamic data;
+  const NotificationItem({this.data});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +133,9 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tích điểm thành công +20 Point ',
+                    data["type"] == true
+                        ? 'Tích điểm thành công +${data["point"]} Point '
+                        : 'Tích điểm thành công -20 Point ',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -137,7 +146,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      '13:01 20/10/2020',
+                      data["createdAt"],
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,

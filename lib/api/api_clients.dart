@@ -167,8 +167,21 @@ class ApiClient {
           headers: {'Authorization': 'Bearer $accessToken'},
         ),
       );
-      // print(response);
       return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> getUserHistoryPoint(String accessToken) async {
+    try {
+      Response response = await _dio.get(
+        'http://localhost:3000/api/historyPoint/userHistory',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response.data;
     } on DioError catch (e) {
       return e.response!.data;
     }

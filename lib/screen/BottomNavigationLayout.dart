@@ -39,17 +39,20 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   void getData() async {
     dynamic userRes;    
     dynamic data;
-    
+    dynamic historyData;
+
+
     String token = (await storage.read(key: 'accessToken')).toString();
     data = await _apiClient.getAllGift(token);
 
     userRes = await _apiClient.getUserProfileData(token);
 
+    historyData = await _apiClient.getUserHistoryPoint(token);
     // print(data);
     setState(() {
       listScreens = <Widget>[
         HomePage(data: data, userProfile: userRes["user"]),
-        HistoryScreen(),
+        HistoryScreen(data: historyData),
         ScanScreen(),
         // CreatePage(),
         NotificationPage(),
