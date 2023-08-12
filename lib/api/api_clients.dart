@@ -25,8 +25,8 @@ class ApiClient {
         },
         //queryParameters: {'apikey': ApiSecret.apiKey},
       );
-      print(response.statusCode);
-      return response;
+      // print(response.statusCode);
+      return response.data;
     } on DioError catch (e) {
       return e.response!.data;
     }
@@ -204,6 +204,22 @@ class ApiClient {
       return e.response!.data;
     }
   }
+
+  Future<dynamic> getUserGiftExchangeHistoryPoint(String accessToken) async {
+    try {
+      Response response = await _dio.get(
+        'http://127.0.0.1:3000/api/historyPoint/userGiftHistory',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      print(response.statusCode);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
   Future<dynamic> getNotification(String accessToken) async {
     try {
       Response response = await _dio.get(
@@ -213,6 +229,48 @@ class ApiClient {
         ),
       );
       print(response.statusCode);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> changePassword(String accessToken, dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/user/changePassword',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> forgotPassword(dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://localhost:3000/forgotPassword',
+        data: data,
+      );
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> changeUserProfile(String accessToken, dynamic data) async {
+    try {
+      Response response = await _dio.put(
+        'http://127.0.0.1:3000/api/user',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
       return response.data;
     } on DioError catch (e) {
       return e.response!.data;

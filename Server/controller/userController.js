@@ -1,5 +1,5 @@
 import User from "../model/User.js";
-
+import bcrypt from "bcryptjs";
 const getAllUser = async (req, res) => {
   try {
     const user = await User.findAll();
@@ -20,14 +20,36 @@ const getUserByEmail = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id } = req.params;
+  const { user_id } = req.body;
   try {
-    const user = await User.update(req.body, { where: { id: id } });
-    res.status(200).json({ user });
+    const user = await User.update(
+      { name: req.body.name, phone: req.body.phone, address: req.body.address },
+      { where: { id: user_id } }
+    );
+    res.status(200).json({ message: "Success", user });
   } catch (error) {
     console.error(error);
   }
 };
+
+const changePassword = async (req, res) => {
+  const { user_id, oldPassword, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ where: { id: user_id } });
+    console.log(newPassword);
+    if (user && (await bcrypt.compare(oldPassword, user.password))) {
+      const encryptedPassword = await bcrypt.hash(newPassword, 10);
+      (await user.update({ password: encryptedPassword })).save();
+      return res.status(200).json({ message: "Success", user });
+    } else if (!(await bcrypt.compare(oldPassword, user.password))) {
+      return res.status(409).json({ message: "wrong password" });
+    }
+    return res.status(409).json({ message: "error" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -38,4 +60,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { getAllUser, getUserByEmail, updateUser, deleteUser };
+export { getAllUser, getUserByEmail, updateUser, deleteUser, changePassword };

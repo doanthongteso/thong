@@ -17,6 +17,8 @@ import 'home/home_test.dart';
 import 'notification/notification.dart';
 
 class BottomNavigationLayout extends StatefulWidget {
+  final int selectedScreen;
+  const BottomNavigationLayout({this.selectedScreen = 0});
   @override
   BottomNavigationLayoutState createState() {
     return BottomNavigationLayoutState();
@@ -30,6 +32,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   dynamic userRes;
   dynamic data;
   dynamic historyData;
+  dynamic giftHistoryData;
   dynamic notificationData;
   int currentSelectedIndex = 0;
   bool isSearch = false;
@@ -38,7 +41,14 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   @override
   void initState() {
     super.initState();
+    initScreens();
     getData();
+  }
+
+  void initScreens() {
+    setState(() {
+      currentSelectedIndex = widget.selectedScreen;
+    });
   }
 
   void getData() async {
@@ -50,6 +60,8 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
     historyData = await _apiClient.getUserHistoryPoint(token);
 
     notificationData = await _apiClient.getNotification(token);
+
+    giftHistoryData = await _apiClient.getUserGiftExchangeHistoryPoint(token);
     // print(data);
     setState(() {
       listScreens = <Widget>[
@@ -58,7 +70,8 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
         ScanScreen(),
         // CreatePage(),
         NotificationPage(data: notificationData),
-        PersonScreen(userProfile: userRes["user"])
+        PersonScreen(
+            userProfile: userRes["user"], giftHistoryData: giftHistoryData)
       ];
       isComplete = true;
     });
@@ -246,6 +259,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                 MaterialStateProperty.all(Colors.transparent),
                           ),
                           onPressed: () {
+                            getData();
                             setState(() {
                               currentSelectedIndex = 3;
                             });

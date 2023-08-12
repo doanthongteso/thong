@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loyalty/api/api_clients.dart';
+import 'package:loyalty/screen/BottomNavigationLayout.dart';
 import 'package:loyalty/screen/auth/OTP.dart';
 import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/component/validator.dart';
@@ -20,6 +22,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
   final TextEditingController oldpasswordController = TextEditingController();
   final TextEditingController newpasswordController = TextEditingController();
   final TextEditingController renewpasswordController = TextEditingController();
+  final storage = const FlutterSecureStorage();
 
   final ApiClient _apiClient = ApiClient();
   bool _showPassword = false;
@@ -36,10 +39,95 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
         "newpassword": newpasswordController.text,
         "renewpassword": renewpasswordController.text,
       };
+      if (newpasswordController.text != renewpasswordController.text) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content:
+                  Text('Mật khẩu mới không trùng với xác nhận mật khẩu mới'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        String token = (await storage.read(key: 'accessToken')).toString();
+        dynamic res = await _apiClient.changePassword(token, {
+          "oldPassword": oldpasswordController.text,
+          "newPassword": newpasswordController.text
+        });
+        print(res);
 
-      dynamic res = await _apiClient.registerUser(userData);
-      print(res);
-
+        if (res["message"] == "wrong password") {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Error"),
+                content: Text('Sai mật khẩu'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else if (res["message"] == "Success") {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Thành công"),
+                content: Text('Thay đổi mật khẩu thành công'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return BottomNavigationLayout(
+                            selectedScreen: 4,
+                          );
+                        },
+                      ));
+                    },
+                    child: Text('Quay về trang chủ'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Error"),
+                content: Text('Có một số lỗi xảy ra, vui lòng thử lại'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       // Navigator.push(
       //   context,

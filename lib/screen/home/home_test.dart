@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
               Container(
                 height: 15,
               ),
-              HorizListCard(title: 'Quà tặng mới', recipeList: hotRecipeList),
+              HorizListCard(title: 'Quà tặng mới', recipeList: newRecipeList),
               Container(
                 height: 15,
               ),
@@ -235,7 +235,7 @@ class RecipeItem extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                       child: Text(
-                        'Tốt cho sức khỏe',
+                        'Quà đặc biệt',
                         style: TextStyle(fontSize: 12, color: Colors.white),
                       ),
                       decoration: BoxDecoration(

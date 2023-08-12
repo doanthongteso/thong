@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/screen/home/home.dart';
 import 'package:loyalty/screen/person/changepassword.dart';
 import 'package:loyalty/screen/person/myadress.dart';
@@ -15,12 +16,20 @@ import 'package:loyalty/screen/person/profile.dart';
 
 class PersonScreen extends StatelessWidget {
   final dynamic userProfile;
-  const PersonScreen({this.userProfile});
+  final dynamic giftHistoryData;
+  const PersonScreen({this.userProfile, this.giftHistoryData});
   // String accessToken =
   //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2OTY4NzMsImV4cCI6MTY5MTcwNDA3M30.kppS8HzGyWBpJoi3Q-ExdHwD0uyX6wivNc12puODC9U";
   // @override
   @override
   Widget build(BuildContext context) {
+    final storage = const FlutterSecureStorage();
+    void logout() async {
+      await storage.delete(key: "accessToken");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -110,7 +119,7 @@ class PersonScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyGiftScreen(),
+                  builder: (context) => MyGiftScreen(data: giftHistoryData),
                 ),
               );
             },
@@ -317,7 +326,7 @@ class PersonScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              print('Log out');
+              logout();
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),

@@ -1,6 +1,5 @@
 import { Router } from "express";
-import auth from "../middleware/auth.js";
-import {
+import {userAuth} from "../middleware/auth.js";import {
   addPoint,
   getAllProductCode,
 } from "../controller/productCodeController.js";
@@ -8,5 +7,5 @@ import {
 const router = Router();
 
 router.get("/", getAllProductCode);
-router.post("/addPoint", auth, addPoint);
+router.post("/addPoint", userAuth, addPoint);
 export default router;

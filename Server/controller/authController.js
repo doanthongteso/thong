@@ -2,7 +2,8 @@ import User from "../model/User.js";
 import OTP from "../model/Otp.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { generateOTP, sendOTP } from "../utils/mail.js";
+import { generateOTP, sendNewPassword, sendOTP } from "../utils/mail.js";
+import { generateRandomString } from "../utils/generateNumber.js";
 const register = async (req, res) => {
   try {
     // Get user input
@@ -31,6 +32,8 @@ const register = async (req, res) => {
       isActive: false,
       totalPoint: 0,
       address: "default",
+      role: "user",
+      phone: null,
     };
     const otp = generateOTP();
     await OTP.create({
@@ -67,6 +70,36 @@ const verifyOtp = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  try {
+    // Get user input
+    const { email } = req.body;
+    // Validate user input
+    if (!email) {
+      res.status(400).send("All input is required");
+    }
+
+    // check if user already exist
+    // Validate if user exist in our database
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user) {
+      return res.status(404).send("Not found user");
+    }
+
+    //Encrypt user password
+    const newPassword = generateRandomString(6);
+    const encryptedPassword = await bcrypt.hash(newPassword, 10);
+    // Create user in our database
+    (await user.update({ password: encryptedPassword })).save();
+    sendNewPassword(email, newPassword);
+    // return new user
+    res.status(201).json({ message: "Success", newPassword: newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const login = async (req, res) => {
   try {
     // Get user input
@@ -76,11 +109,47 @@ const login = async (req, res) => {
       return res.status(400).send("All input is required");
     }
     // Validate if user exist in our database
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email, role: "user" } });
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user.id, email },
+        { user_id: user.id, email, role: user.role },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      // response user token
+      const response = {
+        userId: user.id,
+        email: email,
+        token: token,
+      };
+      // user
+      res.cookie("token", token);
+      return res.status(200).json({ message: "Success", response: response });
+    }
+    res.status(400).json({ message: "Invalid Email or Password" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const adminLogin = async (req, res) => {
+  try {
+    // Get user input
+    const { email, password } = req.body;
+    // Validate user input
+    if (!(email && password)) {
+      return res.status(400).send("All input is required");
+    }
+    // Validate if user exist in our database
+    const user = await User.findOne({ where: { email: email, role: "admin" } });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user.id, email, role: user.role },
         process.env.SECRET_KEY,
         {
           expiresIn: "2h",
@@ -102,4 +171,4 @@ const login = async (req, res) => {
     console.log(err);
   }
 };
-export { register, login, verifyOtp };
+export { register, login, verifyOtp, adminLogin, forgotPassword };
