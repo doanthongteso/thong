@@ -11,7 +11,8 @@ import productCodeRoute from "./routes/productCodeRoute.js";
 import bannerRoute from "./routes/bannerRoute.js";
 import giftRoute from "./routes/giftRoute.js";
 import historyPointRoute from "./routes/historyPointRoute.js";
-import notificationRoute from "./routes/notificationRoute.js"
+import notificationRoute from "./routes/notificationRoute.js";
+import cardRoute from "./routes/cardRoute.js";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/banner", bannerRoute);
 app.use("/api/gift", giftRoute);
 app.use("/api/historyPoint", historyPointRoute);
 app.use("/api/notification", notificationRoute);
+app.use("/api/card", cardRoute);
 
 app.listen(port, () => {
   console.log(`Server listening on the port  ${port}`);

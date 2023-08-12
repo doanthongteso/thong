@@ -3,6 +3,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import ProductCode from "./ProductCode.js";
 import User from "./User.js";
 import Gift from "./Gift.js";
+import Card from "./Card.js";
 
 const HistoryPoint = sequelize.define(
   "history_point",
@@ -24,5 +25,6 @@ const HistoryPoint = sequelize.define(
 HistoryPoint.belongsTo(ProductCode);
 HistoryPoint.belongsTo(User);
 HistoryPoint.belongsTo(Gift);
+HistoryPoint.belongsTo(Card);
 HistoryPoint.sync();
 export default HistoryPoint;
