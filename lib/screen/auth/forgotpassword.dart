@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loyalty/screen/auth/OTP.dart';
+import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/screen/auth/register.dart';
 
 import '../../api/api_clients.dart';
@@ -27,19 +28,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         backgroundColor: Colors.green.shade300,
       ));
 
-      dynamic res = await _apiClient.login(
-        emailController.text,
-        passwordController.text,
-      );
+      dynamic res = await _apiClient.forgotPassword({
+        "email": emailController.text,
+      });
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-      if (res['message'] == 'Logged in') {
-        String accessToken = res['accessToken'];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomeScreen(accesstoken: accessToken)));
+      if (res['message'] == 'Success') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thành công"),
+              content: Text('Mật khẩu đã được gửi về email của bạn'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return LoginScreen();
+                      },
+                    ));
+                  },
+                  child: Text('Đăng nhập'),
+                ),
+              ],
+            );
+          },
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Error: ${res['message']}'),

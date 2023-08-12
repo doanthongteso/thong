@@ -1,6 +1,6 @@
 import { Router } from "express";
-import auth from "../middleware/auth.js";
-import {
+import {userAuth, adminAuth} from "../middleware/auth.js";import {
+  changePassword,
   deleteUser,
   getAllUser,
   getUserByEmail,
@@ -9,8 +9,9 @@ import {
 
 const router = Router();
 
-router.get("/", auth, getAllUser);
-router.get("/email", auth, getUserByEmail);
-router.put("/:id", auth, updateUser);
-router.delete("/:id", auth, deleteUser);
+router.get("/", adminAuth, getAllUser);
+router.get("/email", userAuth, getUserByEmail);
+router.put("/", userAuth, updateUser);
+router.delete("/:id", userAuth, deleteUser);
+router.post("/changePassword", userAuth, changePassword)
 export default router;

@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loyalty/api/api_clients.dart';
+import 'package:loyalty/screen/BottomNavigationLayout.dart';
 import 'package:loyalty/screen/auth/OTP.dart';
 import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/component/validator.dart';
@@ -14,7 +16,8 @@ class EditProfileScreen extends StatelessWidget {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-
+  final storage = const FlutterSecureStorage();
+  final ApiClient _apiClient = ApiClient();
   @override
   final _formKey = GlobalKey<FormState>();
 
@@ -32,12 +35,29 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _name = "${userProfile["name"]}";
-    String _phone = "0123456789";
-    String _address = "Cam Thanh, Cam Xuyen, Ha Tinh";
+    String _name = userProfile["name"];
+    String _phone = userProfile["phone"];
+    String _address = userProfile["address"];
     _nameController.text = _name;
     _phoneController.text = _phone;
     _addressController.text = _address;
+
+    void saveInfo() async {
+      String token = (await storage.read(key: 'accessToken')).toString();
+
+      dynamic res = await _apiClient.changeUserProfile(token, {
+        "name": _nameController.text,
+        "phone": _phoneController.text,
+        "address": _addressController.text
+      });
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 4,
+                  )));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -76,15 +96,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _name = value!;
-                },
+                initialValue: userProfile["email"],
               ),
               TextFormField(
                 controller: _phoneController,
@@ -121,10 +133,7 @@ class EditProfileScreen extends StatelessWidget {
 
                   onPressed: () => {
                     //registerUsers(),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PersonScreen()),
-                    ),
+                    saveInfo()
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.indigo,

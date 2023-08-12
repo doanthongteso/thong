@@ -16,6 +16,14 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    phone: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     totalPoint: {
       type: DataTypes.INTEGER,
       allowNull: false,

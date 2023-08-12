@@ -38,26 +38,57 @@ class _LoginScreenState extends State<LoginScreen> {
         emailController.text,
         passwordController.text,
       );
-      print(res);
-      print(res.statusCode);
+      print(res["message"]);
+      //print(res.statusCode);
 
 // Write value
       FlutterSecureStorage.setMockInitialValues({});
-      await storage.write(key: 'accessToken', value: res.data['token']);
 
       //print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-      if (res.statusCode == 200) {
-        String accessToken = res.data['token'];
+      if (res["message"] == "Success") {
+        await storage.write(
+            key: 'accessToken', value: res["response"]['token']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => BottomNavigationLayout()));
+      } else if (res["message"] == "Invalid Email or Password") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text('Sai tên đăng nhâp hoặc mật khẩu'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res.data['message']}'),
-          backgroundColor: Colors.red.shade300,
-        ));
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text('Có một số lỗi xảy ra, vui lòng thử lại'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }

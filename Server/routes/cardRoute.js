@@ -1,6 +1,5 @@
 import { Router } from "express";
-import auth from "../middleware/auth.js";
-
+import {userAuth} from "../middleware/auth.js";
 const router = Router();
 
 router.get("/");

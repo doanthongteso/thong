@@ -1,6 +1,5 @@
 import { Router } from "express";
-import auth from "../middleware/auth.js";
-
+import {userAuth} from "../middleware/auth.js";
 import {
   getAllGift,
   getGiftByCategory,
@@ -9,7 +8,7 @@ import {
 
 const router = Router();
 
-router.get("/", auth, getAllGift);
-router.get("/:category", auth, getGiftByCategory);
-router.post("/exchange", auth, giftExchange);
+router.get("/", userAuth, getAllGift);
+router.get("/:category", userAuth, getGiftByCategory);
+router.post("/exchange", userAuth, giftExchange);
 export default router;

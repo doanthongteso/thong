@@ -9,156 +9,12 @@ import 'package:loyalty/screen/auth/register.dart';
 
 import '../SlidableButton.dart';
 
-// class MyGiftScreen extends StatefulWidget {
-//   @override
-//   _MyGiftScreenState createState() => _MyGiftScreenState();
-// }
-
-// class _MyGiftScreenState extends State<MyGiftScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Quà của tôi',
-//           style: TextStyle(color: Colors.black),
-//         ),
-//         centerTitle: true,
-//         backgroundColor: Colors.white,
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           color: Colors.black,
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           },
-//         ),
-//       ),
-//       body: Container(
-//         width: 220,
-//         height: 220,
-//         padding: EdgeInsets.only(bottom: 10),
-//         margin: EdgeInsets.all(6),
-//         decoration: BoxDecoration(
-//             shape: BoxShape.rectangle,
-//             color: Colors.white,
-//             borderRadius: BorderRadius.all(Radius.circular(20)),
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Colors.grey.withOpacity(0.3),
-//                 blurRadius: 10,
-//                 offset: Offset(0, 1), // changes position of shadow
-//               ),
-//             ]),
-//         child: Column(
-//           children: [
-//             Container(
-//               width: 220,
-//               height: 130,
-//               decoration: BoxDecoration(
-//                   image: DecorationImage(
-//                     image: NetworkImage("assets/images/logo.jpg"),
-//                     fit: BoxFit.cover,
-//                   ),
-//                   borderRadius: BorderRadius.only(
-//                       topLeft: Radius.circular(20),
-//                       topRight: Radius.circular(20))),
-//             ),
-//             Container(
-//               margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-//               child: Column(
-//                 children: [
-//                   Container(
-//                     alignment: Alignment.centerLeft,
-//                     child: Text(
-//                       'Tên quà tặng',
-//                       style: TextStyle(
-//                         fontSize: 16,
-//                         fontWeight: FontWeight.w500,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     height: 2.5,
-//                   ),
-//                   Container(
-//                     alignment: Alignment.centerLeft,
-//                     child: Text(
-//                       'Nhà phân phối',
-//                       style: TextStyle(
-//                           fontSize: 13,
-//                           fontWeight: FontWeight.w300,
-//                           color: Colors.blueGrey),
-//                     ),
-//                   ),
-//                   Container(
-//                     height: 5,
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Icon(
-//                             Icons.money,
-//                             size: 16,
-//                           ),
-//                           Container(
-//                             width: 5,
-//                           ),
-//                           Text(
-//                             '6',
-//                             style: TextStyle(
-//                                 fontSize: 16,
-//                                 fontWeight: FontWeight.w300,
-//                                 color: Colors.black87),
-//                           )
-//                         ],
-//                       ),
-//                       Row(
-//                         children: [
-//                           Icon(
-//                             Icons.star,
-//                             size: 16,
-//                             color: Colors.orangeAccent,
-//                           ),
-//                           Container(
-//                             width: 5,
-//                           ),
-//                           Text(
-//                             '999',
-//                             style: TextStyle(
-//                                 fontSize: 16,
-//                                 fontWeight: FontWeight.w300,
-//                                 color: Colors.black87),
-//                           )
-//                         ],
-//                       ),
-//                       Container(
-//                         padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-//                         child: Text(
-//                           'Tốt cho sức khỏe',
-//                           style: TextStyle(fontSize: 12, color: Colors.white),
-//                         ),
-//                         decoration: BoxDecoration(
-//                           shape: BoxShape.rectangle,
-//                           borderRadius: BorderRadius.all(Radius.circular(50)),
-//                           color: Colors.green,
-//                         ),
-//                       )
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 class MyGiftScreen extends StatelessWidget {
+  final dynamic data;
+  const MyGiftScreen({this.data});
   @override
   Widget build(BuildContext context) {
+    print(data);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -181,7 +37,7 @@ class MyGiftScreen extends StatelessWidget {
             height: 10,
           ),
           Expanded(
-            child: GiftList(),
+            child: GiftList(data: data),
           ),
         ],
       ),
@@ -190,18 +46,14 @@ class MyGiftScreen extends StatelessWidget {
 }
 
 class GiftList extends StatelessWidget {
-  List<Widget> messageList = [
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-  ];
+  final dynamic data;
+  const GiftList({this.data});
 
   Widget build(BuildContext context) {
+    List<Widget> messageList = [];
+    data.forEach((item) {
+      messageList.add(NotificationNOption(data: item));
+    });
     return Container(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -213,10 +65,12 @@ class GiftList extends StatelessWidget {
 }
 
 class NotificationNOption extends StatelessWidget {
+  final dynamic data;
+  const NotificationNOption({this.data});
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      child: NotificationItem(),
+      child: NotificationItem(data: data),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
         children: [
@@ -245,6 +99,8 @@ class NotificationNOption extends StatelessWidget {
 }
 
 class NotificationItem extends StatelessWidget {
+  final dynamic data;
+  const NotificationItem({this.data});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -268,7 +124,7 @@ class NotificationItem extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage('assets/images/logo.jpg'),
+                    image: NetworkImage(data["gift"]["imgUrl"]),
                     fit: BoxFit.cover)),
           ),
           Expanded(
@@ -277,9 +133,9 @@ class NotificationItem extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
-                    'Tên quà tặng',
+                    data["gift"]["name"],
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -290,27 +146,29 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Nhà phân phối',
+                      data["gift"]["vendor"],
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: Colors.grey),
                     ),
                   ),
+                  data["cardId"] != null
+                      ? Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          child: Text(
+                            'Mã thẻ cào : ${data["card"]["code"]}',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey),
+                          ),
+                        )
+                      : SizedBox.shrink(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Mã thẻ cào : 12345678910',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Text(
-                      'Ngày đổi quà : 20/10/2020',
+                      'Ngày đổi quà : ${data["createdAt"]}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,

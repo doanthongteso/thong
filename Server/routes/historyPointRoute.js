@@ -1,12 +1,14 @@
 import { Router } from "express";
-import auth from "../middleware/auth.js";
-import {
+import {userAuth} from "../middleware/auth.js";import {
   getAllHistoryPoints,
+  getHIstoryGiftExchangeByUserId,
   getHIstoryPointsByUserId,
 } from "../controller/historyPointController.js";
 
 const router = Router();
 
 router.get("/", getAllHistoryPoints);
-router.get("/userHistory", auth, getHIstoryPointsByUserId);
+router.get("/userHistory", userAuth, getHIstoryPointsByUserId);
+router.get("/userGiftHistory", userAuth, getHIstoryGiftExchangeByUserId);
+
 export default router;
