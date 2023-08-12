@@ -159,15 +159,32 @@ import '../SlidableButton.dart';
 class MyGiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 10,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Quà của tôi',
+          style: TextStyle(color: Colors.black),
         ),
-        Expanded(
-          child: GiftList(),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-      ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 10,
+          ),
+          Expanded(
+            child: GiftList(),
+          ),
+        ],
+      ),
     );
   }
 }

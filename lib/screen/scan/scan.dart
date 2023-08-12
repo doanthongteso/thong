@@ -93,6 +93,18 @@ class _ScanScreenState extends State<ScanScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         // SizedBox(height: size.height * 0.08),
+                        Text(
+                          'Cào nhẹ lớp phủ để lấy mã CODE trên thẻ cào.',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w800),
+                        ),
+                        Center(
+                          child: Image.asset(
+                            'assets/images/macode.jpg',
+                            width: 200,
+                            height: 200,
+                          ),
+                        ),
 
                         SizedBox(height: size.height * 0.06),
                         TextFormField(
@@ -101,7 +113,7 @@ class _ScanScreenState extends State<ScanScreen> {
                             return Validator.validateNumber(value ?? "");
                           },
                           decoration: InputDecoration(
-                            hintText: "NHẬP MÃ CODE TRÊN TEM SẢN PHẨM",
+                            hintText: "NHẬP MÃ CODE TRÊN THẺ CÀO",
                             isDense: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),

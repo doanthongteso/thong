@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/history/history.dart';
 import 'package:loyalty/screen/person/person.dart';
+import 'package:loyalty/screen/person/profile.dart';
 import 'package:loyalty/screen/scan/scan.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -37,10 +38,9 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   }
 
   void getData() async {
-    dynamic userRes;    
+    dynamic userRes;
     dynamic data;
     dynamic historyData;
-
 
     String token = (await storage.read(key: 'accessToken')).toString();
     data = await _apiClient.getAllGift(token);
@@ -56,7 +56,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
         ScanScreen(),
         // CreatePage(),
         NotificationPage(),
-        PersonScreen()
+        PersonScreen(userProfile: userRes["user"])
       ];
     });
   }

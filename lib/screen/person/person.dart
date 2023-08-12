@@ -4,18 +4,21 @@ import 'package:loyalty/screen/home/home.dart';
 import 'package:loyalty/screen/person/changepassword.dart';
 import 'package:loyalty/screen/person/myadress.dart';
 import 'package:loyalty/screen/person/mygift.dart';
+import 'package:loyalty/screen/person/profile.dart';
 
-class PersonScreen extends StatefulWidget {
-  const PersonScreen({Key? key}) : super(key: key);
+// class PersonScreen extends StatefulWidget {
+//   //const PersonScreen({Key? key}) : super(key: key);
 
-  @override
-  State<PersonScreen> createState() => _PersonScreenState();
-}
+//   @override
+//   State<PersonScreen> createState() => _PersonScreenState();
+// }
 
-class _PersonScreenState extends State<PersonScreen> {
-  String accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2OTY4NzMsImV4cCI6MTY5MTcwNDA3M30.kppS8HzGyWBpJoi3Q-ExdHwD0uyX6wivNc12puODC9U";
-  @override
+class PersonScreen extends StatelessWidget {
+  final dynamic userProfile;
+  const PersonScreen({this.userProfile});
+  // String accessToken =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwiZW1haWwiOiJuZ3V5ZW5kb2FudGhlMDYxMEBnbWFpbC5jb20iLCJpYXQiOjE2OTE2OTY4NzMsImV4cCI6MTY5MTcwNDA3M30.kppS8HzGyWBpJoi3Q-ExdHwD0uyX6wivNc12puODC9U";
+  // @override
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,9 +26,13 @@ class _PersonScreenState extends State<PersonScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreen(accesstoken: accessToken);
-              }));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfileScreen(userProfile: userProfile),
+                ),
+              );
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -52,8 +59,7 @@ class _PersonScreenState extends State<PersonScreen> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png'),
+                                  image: NetworkImage('assets/images/logo.jpg'),
                                   fit: BoxFit.cover)),
                         ),
                       ),
@@ -66,7 +72,7 @@ class _PersonScreenState extends State<PersonScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Tên Người Dùng',
+                              "${userProfile["name"]}",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),

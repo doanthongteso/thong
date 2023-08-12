@@ -63,7 +63,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 decoration: InputDecoration(labelText: 'Tên người nhận'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return 'Vui lòng nhập tên';
                   }
                   return null;
                 },
@@ -76,7 +76,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     InputDecoration(labelText: 'Số điện thoại người nhận'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
+                    return 'Vui lòng nhập số điện thoại';
                   }
                   return null;
                 },
@@ -85,51 +85,15 @@ class _AddressScreenState extends State<AddressScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Tỉnh/Thành Phố'),
+                decoration: InputDecoration(labelText: 'Địa chỉ'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your province';
+                    return 'Vui lòng nhập địa chỉ';
                   }
                   return null;
                 },
                 onSaved: (value) {
                   _province = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Quận/Huyện'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your district';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _district = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Phường/Xã'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your ward';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _ward = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Đường/Số nhà/Thôn/Xóm'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your street';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _street = value!;
                 },
               ),
               SizedBox(height: 16),

@@ -6,6 +6,7 @@ import 'package:loyalty/screen/auth/login_screen.dart';
 import 'package:loyalty/screen/auth/register.dart';
 import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/home/home_test.dart';
+import 'package:loyalty/screen/person/test.dart';
 
 import 'screen/person/myadress.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       //home: ExchangeGiftInfo(),
       home: const LoginScreen(),
+      //home: Edit(),
     );
   }
 }
