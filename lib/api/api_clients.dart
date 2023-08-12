@@ -181,6 +181,7 @@ class ApiClient {
           headers: {'Authorization': 'Bearer $accessToken'},
         ),
       );
+      print(response.statusCode);
       return response.data;
     } on DioError catch (e) {
       return e.response!.data;
