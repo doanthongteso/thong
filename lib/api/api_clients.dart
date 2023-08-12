@@ -167,7 +167,24 @@ class ApiClient {
           headers: {'Authorization': 'Bearer $accessToken'},
         ),
       );
-      return response;
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> exchangeGift(String accessToken, int giftId) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/gift/exchange',
+        data: {
+          'giftId': giftId,
+        },
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response.data;
     } on DioError catch (e) {
       return e.response!.data;
     }
@@ -177,6 +194,20 @@ class ApiClient {
     try {
       Response response = await _dio.get(
         'http://localhost:3000/api/historyPoint/userHistory',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      print(response.statusCode);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+  Future<dynamic> getNotification(String accessToken) async {
+    try {
+      Response response = await _dio.get(
+        'http://localhost:3000/api/notification',
         options: Options(
           headers: {'Authorization': 'Bearer $accessToken'},
         ),

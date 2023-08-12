@@ -7,6 +7,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../SlidableButton.dart';
 
 class NotificationPage extends StatelessWidget {
+  final dynamic data;
+  const NotificationPage({this.data});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +18,7 @@ class NotificationPage extends StatelessWidget {
           height: 10,
         ),
         Expanded(
-          child: NotificationList(),
+          child: NotificationList(data: data),
         ),
       ],
     );
@@ -107,18 +109,14 @@ class _FilterNotificationState extends State<FilterNotification> {
 }
 
 class NotificationList extends StatelessWidget {
-  List<Widget> messageList = [
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-  ];
+  final dynamic data;
+  const NotificationList({this.data});
 
   Widget build(BuildContext context) {
+    List<Widget> messageList = [];
+    data.forEach((item) {
+      messageList.add(NotificationNOption(data: item));
+    });
     return Container(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -130,10 +128,13 @@ class NotificationList extends StatelessWidget {
 }
 
 class NotificationNOption extends StatelessWidget {
+  final dynamic data;
+  const NotificationNOption({this.data});
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      child: NotificationItem(),
+      child: NotificationItem(data: data),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
         children: [
@@ -162,6 +163,8 @@ class NotificationNOption extends StatelessWidget {
 }
 
 class NotificationItem extends StatelessWidget {
+  final dynamic data;
+  const NotificationItem({this.data});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -185,8 +188,7 @@ class NotificationItem extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage(
-                        'https://images.viblo.asia/fe08fd0e-bf25-4a5a-b7e5-9dca33cfc692.png'),
+                    image: NetworkImage('assets/images/logo.jpg'),
                     fit: BoxFit.cover)),
           ),
           Expanded(
@@ -197,7 +199,16 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Noi dung thong bao noi dung thong bao, noi dung thong bao. Noi dung thong bao noi dung thong bao, noi dung thong bao. ',
+                    data["title"],
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                  ),
+                  Text(
+                    data["description"],
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -208,7 +219,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      '13:01',
+                      data["createdAt"],
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,

@@ -23,7 +23,7 @@ const addPoint = async (req, res) => {
       return res.status(404).json({ message: "Not found" });
     }
     if (!product.status) {
-      return res.status(409).json({ his: { message: "Used" } });
+      return res.status(409).json({ message: "Used" });
     }
     const user = await User.findOne({ where: { email: email } });
     (
