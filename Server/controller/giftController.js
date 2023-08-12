@@ -1,6 +1,8 @@
 import Gift from "../model/Gift.js";
 import User from "../model/User.js";
 import HistoryPoint from "../model/HistoryPoint.js";
+import { generateCardCode } from "../utils/generateNumber.js";
+import Card from "../model/Card.js";
 const getAllGift = async (req, res) => {
   try {
     const gifts = await Gift.findAll();
@@ -39,16 +41,27 @@ const giftExchange = async (req, res) => {
     (await gift.update({ totalCount: gift.totalCount - 1 })).save();
     (await user.update({ totalPoint: user.totalPoint - gift.point })).save();
 
+    if (gift.category == "Card") {
+      const cardCode = generateCardCode(10);
+      const card = await Card.create({ code: cardCode });
+      const history = await HistoryPoint.create({
+        type: 0,
+        point: gift.point,
+        userId: user.id,
+        giftId: gift.id,
+        cardId: card.id,
+      });
+      return res.status(200).json({ message: "Success", card, history });
+    }
     const history = await HistoryPoint.create({
       type: 0,
-      point: product.product.point,
+      point: gift.point,
       userId: user.id,
       giftId: gift.id,
     });
-    
-    return res.status(200).json(history);
+    res.status(200).json({ message: "Success", history });
   } catch (error) {
-    console.log(error); 
+    console.log(error);
   }
 };
 
