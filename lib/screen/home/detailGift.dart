@@ -1,14 +1,71 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loyalty/api/api_clients.dart';
+import 'package:loyalty/screen/BottomNavigationLayout.dart';
 import 'package:loyalty/screen/home/exchangeGiftInfo.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class RecipeDetails extends StatelessWidget {
   final dynamic data;
-  const RecipeDetails({this.data});
+  final dynamic userData;
+  const RecipeDetails({this.data, this.userData});
 
   @override
   Widget build(BuildContext context) {
+    final ApiClient _apiClient = ApiClient();
+    final storage = const FlutterSecureStorage();
+    void cardExchange() async {
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.exchangeGift(token, data["id"]);
+      print(res);
+      if (res["message"] == "Success") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Đổi quà thành công'),
+              content: Text('Mã thẻ: ${res["card"]["code"]}'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BottomNavigationLayout()),
+                    );
+                  },
+                  child: Text('Về trang chủ'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Đổi quà thất bại'),
+              content: Text('Có một số lỗi xảy ra, vui lòng thử lại.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BottomNavigationLayout()),
+                    );
+                  },
+                  child: Text('Về trang chủ'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -225,11 +282,16 @@ class RecipeDetails extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ExchangeGiftInfo()),
-                    );
+                    data["category"] == "Card"
+                        ? cardExchange()
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExchangeGiftInfo(
+                                      giftData: data,
+                                      userData: userData,
+                                    )),
+                          );
                   },
                   child: Container(
                     height: 44,

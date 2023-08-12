@@ -135,7 +135,7 @@ class NotificationItem extends StatelessWidget {
                   Text(
                     data["type"] == true
                         ? 'Tích điểm thành công +${data["point"]} Point '
-                        : 'Tích điểm thành công -20 Point ',
+                        : 'Đổi quà thành công -${data["point"]} Point',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,

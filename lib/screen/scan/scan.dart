@@ -18,12 +18,12 @@ class _ScanScreenState extends State<ScanScreen> {
   final TextEditingController codeController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   final FlutterSecureStorage storage = const FlutterSecureStorage();
-  void _showFailPopup() {
+  void _showFailPopup(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Mã CODE không đúng'),
+          title: Text(message),
           content: Text('Vui lòng kiểm tra lại mã CODE'),
           actions: [
             TextButton(
@@ -54,8 +54,10 @@ class _ScanScreenState extends State<ScanScreen> {
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       if (res['message'] == 'Used') {
-        _showFailPopup();
-      } else if (res.statusCode == 200) {
+        _showFailPopup('Mã CODE đã được sử dụng');
+      } else if (res['message'] == 'Not found') {
+        _showFailPopup('Mã CODE không tồn tại');
+      } else if (res["message"] == "Success") {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return ScanInfoScreen();

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loyalty/api/api_clients.dart';
 import 'package:loyalty/screen/BottomNavigationLayout.dart';
 import 'package:loyalty/screen/auth/OTP.dart';
@@ -8,27 +9,27 @@ import 'package:loyalty/component/validator.dart';
 import 'package:loyalty/screen/auth/register.dart';
 import 'package:loyalty/screen/home/home_test.dart';
 import 'package:loyalty/screen/person/myadress.dart';
+import 'package:loyalty/screen/person/mygift.dart';
 
 class ExchangeGiftInfo extends StatefulWidget {
+  final dynamic giftData;
+  final dynamic userData;
+  const ExchangeGiftInfo({this.giftData, this.userData});
   @override
   _ExchangeGiftInfoState createState() => _ExchangeGiftInfoState();
 }
 
 class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
-  String _receiverName = "John Doe";
-  String _receiverPhone = "1234567890";
-  String _receiverAddress = "123 Main Street, City";
-  String _giftName = "Sample Gift";
-  String _giftImageUrl = "https://example.com/sample_gift.png";
-
+  final ApiClient _apiClient = ApiClient();
+  final storage = const FlutterSecureStorage();
   void _changeReceiverInformation() {
     // You can add code to open a form/dialog to change receiver information here.
     // For simplicity, we are using a dummy data update here.
-    setState(() {
-      _receiverName = "Jane Doe";
-      _receiverPhone = "9876543210";
-      _receiverAddress = "456 Park Avenue, Town";
-    });
+    // setState(() {
+    //   _receiverName = "Jane Doe";
+    //   _receiverPhone = "9876543210";
+    //   _receiverAddress = "456 Park Avenue, Town";
+    // });
   }
 
   void _continueToNextScreen() {
@@ -36,32 +37,60 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
     print("Continue button pressed!");
   }
 
-  void _showSuccessPopup() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Đổi quà thành công'),
-          content: Text('Quà của bạn sẽ sớm được vận chuyển đến bạn'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BottomNavigationLayout()),
-                );
-              },
-              child: Text('Về trang chủ'),
-            ),
-          ],
-        );
-      },
-    );
+  void _showSuccessPopup() async {
+    String token = (await storage.read(key: 'accessToken')).toString();
+    dynamic res = await _apiClient.exchangeGift(token, widget.giftData["id"]);
+    print(res);
+    if (res["message"] == "Success") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Đổi quà thành công'),
+            content: Text('Quà của bạn sẽ sớm được vận chuyển đến bạn'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BottomNavigationLayout()),
+                  );
+                },
+                child: Text('Về trang chủ'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Đổi quà thất bại'),
+            content: Text('Có một số lỗi xảy ra, vui lòng thử lại.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BottomNavigationLayout()),
+                  );
+                },
+                child: Text('Về trang chủ'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.giftData);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +116,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text(
-                'Địa chỉ nhận quà',
+                'Thông tin người nhận',
                 style: TextStyle(
                     fontSize: 16,
                     //color: Theme.of(context).primaryColorDark,
@@ -97,7 +126,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text(
-                'Thông Nguyễn',
+                widget.userData["name"],
                 style: TextStyle(
                   fontSize: 16,
                   //color: Theme.of(context).primaryColorDark,
@@ -117,7 +146,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text(
-                'Đông Mỹ, Cẩm Thành, Cẩm Xuyên, Hà Tĩnh',
+                widget.userData["address"],
                 style: TextStyle(
                   fontSize: 16,
                   //color: Theme.of(context).primaryColorDark,
@@ -168,7 +197,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                     image:
-                                        NetworkImage('assets/images/logo.jpg'),
+                                        NetworkImage(widget.giftData["imgUrl"]),
                                     fit: BoxFit.cover)),
                           ),
                         ),
@@ -181,7 +210,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Tên quà tặng',
+                                widget.giftData["name"],
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -190,7 +219,7 @@ class _ExchangeGiftInfoState extends State<ExchangeGiftInfo> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      'Nhà phân phối',
+                                      widget.giftData["vendor"],
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Theme.of(context)

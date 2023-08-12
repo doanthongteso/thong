@@ -18,11 +18,11 @@ class HomePage extends StatelessWidget {
     // print(data);
     data["gifts"].forEach((item) {
       if (item["category"] == "Card") {
-        cardRecipeList.add(RecipeButton(data: item));
+        cardRecipeList.add(RecipeButton(data: item, userProfile: userProfile));
       } else if (item["category"] == "Hot") {
-        hotRecipeList.add(RecipeButton(data: item));
+        hotRecipeList.add(RecipeButton(data: item, userProfile: userProfile));
       } else if (item["category"] == "New") {
-        newRecipeList.add(RecipeButton(data: item));
+        newRecipeList.add(RecipeButton(data: item, userProfile: userProfile));
       }
     });
     // print(data["gifts"][0]);
@@ -111,14 +111,17 @@ class TitleHorizontalScroll extends StatelessWidget {
 
 class RecipeButton extends StatelessWidget {
   final dynamic data;
-  const RecipeButton({this.data});
+  final dynamic userProfile;
+  const RecipeButton({this.data, this.userProfile});
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RecipeDetails(data: data)),
+            MaterialPageRoute(
+                builder: (context) =>
+                    RecipeDetails(data: data, userData: userProfile)),
           );
         },
         child: RecipeItem(data: data));
