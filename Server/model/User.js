@@ -18,7 +18,7 @@ const User = sequelize.define(
     },
     phone: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     role: {
       type: Sequelize.STRING,
@@ -30,7 +30,7 @@ const User = sequelize.define(
     },
     address: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     isActive: {
       type: DataTypes.BOOLEAN,

@@ -95,20 +95,23 @@ class _ScanScreenState extends State<ScanScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         // SizedBox(height: size.height * 0.08),
-                        Text(
-                          'Cào nhẹ lớp phủ để lấy mã CODE trên thẻ cào.',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800),
+
+                        const Center(
+                          child: Text(
+                            'Cào nhẹ lớp phủ để lấy mã CODE trên thẻ cào.',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w800),
+                          ),
                         ),
                         Center(
                           child: Image.asset(
                             'assets/images/macode.jpg',
-                            width: 200,
-                            height: 200,
+                            width: 300,
+                            height: 300,
                           ),
                         ),
 
-                        SizedBox(height: size.height * 0.06),
+                        SizedBox(height: size.height * 0.02),
                         TextFormField(
                           controller: codeController,
                           validator: (value) {

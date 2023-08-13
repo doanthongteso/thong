@@ -178,18 +178,44 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                         ],
                       ),
                     ),
-                    Expanded(
-                        child: (isSearch)
-                            ? Container(
-                                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: ListView.separated(
-                                  itemCount: 13,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      height: 50,
-                                      child: Text(
-                                        'Hello ' + index.toString(),
-                                        style: TextStyle(fontSize: 16),
+                    Container(
+                      child: (currentSelectedIndex == 2 ||
+                              currentSelectedIndex == 4)
+                          ? null
+                          : Container(
+                              child: (isSearch)
+                                  ? TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          isSearch = false;
+                                        });
+                                      },
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.all(8),
+                                        minimumSize: Size.zero,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Icon(
+                                        Icons.close_rounded,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    )
+                                  : TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          isSearch = false;
+                                        });
+                                      },
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.all(8),
+                                        minimumSize: Size.zero,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Icon(
+                                        Icons.logout_outlined,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                       alignment: Alignment.centerLeft,
                                     );

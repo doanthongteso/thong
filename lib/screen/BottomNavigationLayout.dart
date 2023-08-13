@@ -131,7 +131,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                 ? null
                                 : Container(
                                     child: Text(
-                                    "${userRes["user"]["name"]}",
+                                    "",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w400),
@@ -328,6 +328,11 @@ class Logo extends StatelessWidget {
             color: Colors.orange,
           ),
         ),
+        // Container(
+        //     child: Text(
+        //   "${userRes["user"]["name"]}",
+        //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+        // )),
       ],
     );
   }
