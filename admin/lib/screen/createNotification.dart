@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:admin/screen/GiftScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin/component/validator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CreateNotificationScreen extends StatelessWidget {
   TextEditingController _nameNotiController = TextEditingController();
@@ -26,6 +28,24 @@ class CreateNotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void createNotification() async {
+      final ApiClient _apiClient = ApiClient();
+      final storage = const FlutterSecureStorage();
+
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.createNotification(token, {
+        "title": _nameNotiController.text,
+        "description": _contentController.text
+      });
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 2,
+                  )));
+    }
+
     String _nameNoti = "";
     String _content = "";
 
@@ -89,11 +109,7 @@ class CreateNotificationScreen extends StatelessWidget {
 
                   onPressed: () => {
                     //registerUsers(),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavigationLayout()),
-                    ),
+                    createNotification()
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.indigo,

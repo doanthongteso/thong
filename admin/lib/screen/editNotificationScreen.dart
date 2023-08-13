@@ -1,33 +1,44 @@
 import 'dart:ui';
 import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:admin/screen/GiftScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin/component/validator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class EditNotificationScreen extends StatelessWidget {
-  TextEditingController _nameNotiController = TextEditingController();
-  TextEditingController _contentController = TextEditingController();
-
-  @override
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      // You can do something with the address data here, e.g., save to database or display a success message.
-      // print("Address submitted successfully!");
-      // print("Name: $_name");
-      // print("Phone: $_phone");
-      // print("Province: $_address");
-    }
-  }
+  final dynamic data;
+  const EditNotificationScreen({this.data});
 
   @override
   Widget build(BuildContext context) {
-    String _nameNoti = "Đây là tên";
-    String _content = "nội dung nè";
+    TextEditingController _nameNotiController = TextEditingController();
+    TextEditingController _contentController = TextEditingController();
+
+    @override
+    final _formKey = GlobalKey<FormState>();
+
+    void updateNotification() async {
+      final ApiClient _apiClient = ApiClient();
+      final storage = const FlutterSecureStorage();
+
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.editNotification(token, data["id"], {
+        "title": _nameNotiController.text,
+        "description": _contentController.text
+      });
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 2,
+                  )));
+    }
+
+    String _nameNoti = data["title"];
+    String _content = data["description"];
 
     _nameNotiController.text = _nameNoti;
     _contentController.text = _content;
@@ -87,12 +98,9 @@ class EditNotificationScreen extends StatelessWidget {
                   //onPressed: registerUsers ,
 
                   onPressed: () => {
+                    updateNotification(),
+                    
                     //registerUsers(),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavigationLayout()),
-                    ),
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.indigo,

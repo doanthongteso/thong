@@ -1,5 +1,9 @@
+import 'dart:html';
 import 'dart:ui';
+import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../SlidableButton.dart';
 
@@ -108,10 +112,63 @@ class NotificationItem extends StatelessWidget {
         );
       },
     );
+    final ApiClient _apiClient = ApiClient();
+    final storage = const FlutterSecureStorage();
 
     if (confirmed == true) {
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.banUser(token, data["id"]);
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 0,
+                  )));
       // Perform delete operation here
-      print('Item deleted');
+    } else {
+      print('Delete operation canceled');
+    }
+  }
+
+  Future<void> _showActiveConfirmation(BuildContext context) async {
+    bool confirmed = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận kích hoạt'),
+          content: Text('Bạn có chắc muốn kích hoạt tài khoản này ?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // No
+              },
+              child: Text('Không'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Yes
+              },
+              child: Text('Có'),
+            ),
+          ],
+        );
+      },
+    );
+    final ApiClient _apiClient = ApiClient();
+    final storage = const FlutterSecureStorage();
+
+    if (confirmed == true) {
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.activeUser(token, data["id"]);
+      print(res);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 0,
+                  )));
+      // Perform delete operation here
     } else {
       print('Delete operation canceled');
     }
@@ -154,7 +211,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      "Địa chỉ: "+data["address"],
+                      "Địa chỉ: " + data["address"],
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -189,12 +246,20 @@ class NotificationItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                child: ElevatedButton(
-                    onPressed: () {
-                      _showLockConfirmation(context);
-                    },
-                    child: Icon(Icons.lock_open)),
-              )
+                  child: ElevatedButton(
+                      onPressed: () {
+                        data["isActive"]
+                            ? _showLockConfirmation(context)
+                            : _showActiveConfirmation(context);
+                      },
+                      child: Icon(
+                        !data["isActive"] ? Icons.lock_open : Icons.lock,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: data["isActive"]
+                            ? Colors.red
+                            : Colors.blue, // Background color
+                      )))
             ],
           )
         ],

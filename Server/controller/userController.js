@@ -2,7 +2,7 @@ import User from "../model/User.js";
 import bcrypt from "bcryptjs";
 const getAllUser = async (req, res) => {
   try {
-    const user = await User.findAll();
+    const user = await User.findAll({ order: [["createdAt", "DESC"]] });
     res.status(200).json({ user });
   } catch (error) {
     console.error(error);
@@ -29,6 +29,26 @@ const updateUser = async (req, res) => {
     res.status(200).json({ message: "Success", user });
   } catch (error) {
     console.error(error);
+  }
+};
+
+const banUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await User.update({ isActive: false }, { where: { id: id } });
+    res.status(200).json({ message: "Banned" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const activeUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await User.update({ isActive: true }, { where: { id: id } });
+    res.status(200).json({ message: "Activated" });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -60,4 +80,12 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { getAllUser, getUserByEmail, updateUser, deleteUser, changePassword };
+export {
+  getAllUser,
+  getUserByEmail,
+  updateUser,
+  deleteUser,
+  changePassword,
+  banUser,
+  activeUser,
+};
