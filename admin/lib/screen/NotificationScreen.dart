@@ -1,7 +1,10 @@
 import 'dart:ui';
+import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:admin/screen/createNotification.dart';
 import 'package:admin/screen/editNotificationScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'package:loyalty/api/api_clients.dart';
 // import 'package:loyalty/screen/auth/OTP.dart';
@@ -132,7 +135,19 @@ class NotificationItem extends StatelessWidget {
 
     if (confirmed == true) {
       // Perform delete operation here
-      print('Item deleted');
+
+      final ApiClient _apiClient = ApiClient();
+      final storage = const FlutterSecureStorage();
+
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.deleteNotification(token, data["id"]);
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 2,
+                  )));
     } else {
       print('Delete operation canceled');
     }
@@ -203,7 +218,7 @@ class NotificationItem extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return EditNotificationScreen();
+                          return EditNotificationScreen(data: data);
                         },
                       ));
                     },

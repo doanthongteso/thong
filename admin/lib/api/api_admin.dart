@@ -201,4 +201,78 @@ class ApiClient {
       return e.response!.data;
     }
   }
+
+  Future<dynamic> banUser(String accessToken, int userId) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/user/banUser/${userId}',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> activeUser(String accessToken, int userId) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/user/activeUser/${userId}',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> editNotification(
+      String accessToken, int notiId, dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/notification/update/${notiId}',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> createNotification(String accessToken, dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/notification/create/',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> deleteNotification(
+      String accessToken, int notiId) async {
+    try {
+      Response response = await _dio.delete(
+        'http://127.0.0.1:3000/api/notification/delete/${notiId}',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
 }
