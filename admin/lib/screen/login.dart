@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:admin/screen/GiftScreen.dart';
 import 'package:admin/screen/NotificationScreen.dart';
 import 'package:admin/screen/UserScreen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 // import 'package:loyalty/screen/auth/forgotpassword.dart';
 // import 'package:loyalty/screen/home/home.dart';
 import 'package:admin/component/validator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'dart:io';
 // import 'dart:html';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,44 +26,76 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  //final ApiClient _apiClient = ApiClient();
-  //final storage = const FlutterSecureStorage();
-  // final ApiClient _test = testLoginAPI();
+  final storage = const FlutterSecureStorage();
+  final ApiClient _apiClient = ApiClient();
   bool _showPassword = false;
 
   Future<void> login() async {
-    //   if (_formKey.currentState!.validate()) {
-    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       content: const Text('Processing Data'),
-    //       backgroundColor: Colors.green.shade300,
-    //     ));
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text('Processing Data'),
+        backgroundColor: Colors.green.shade300,
+      ));
 
-    //     dynamic res = await _apiClient.login(
-    //       emailController.text,
-    //       passwordController.text,
-    //     );
-    //     print(res);
-    //     print(res.statusCode);
+      dynamic res = await _apiClient.login(
+        emailController.text,
+        passwordController.text,
+      );
+      // print(res["message"]);
+      //print(res.statusCode);
 
-    //     // Write value
-    //     FlutterSecureStorage.setMockInitialValues({});
-    //     await storage.write(key: 'accessToken', value: res.data['token']);
+// Write value
+      FlutterSecureStorage.setMockInitialValues({});
 
-    //     //print(res);
+      //print(res);
 
-    //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-    //     if (res.statusCode == 200) {
-    //       String accessToken = res.data['token'];
-    //       Navigator.push(context,
-    //           MaterialPageRoute(builder: (context) => BottomNavigationLayout()));
-    //     } else {
-    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //         content: Text('Error: ${res.data['message']}'),
-    //         backgroundColor: Colors.red.shade300,
-    //       ));
-    //     }
-    //   }
+      if (res["message"] == "Success") {
+        // print(res);
+        print(res["response"]['token']);
+        await storage.write(
+            key: 'accessToken', value: res["response"]['token']);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BottomNavigationLayout()));
+      } else if (res["message"] == "Invalid Email or Password") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text('Sai tên đăng nhâp hoặc mật khẩu'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text('Có một số lỗi xảy ra, vui lòng thử lại'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 
   @override
@@ -151,11 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return BottomNavigationLayout();
-                                    },
-                                  ));
+                                  login();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.indigo,

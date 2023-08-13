@@ -4,14 +4,9 @@ import 'package:admin/screen/UserScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/api/api_admin.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class BottomNavigationLayout extends StatefulWidget {
-  List<Widget> listScreens = [
-    UserScreen(),
-    GiftScreen(),
-    NotificationScreen(),
-  ];
-
   @override
   BottomNavigationLayoutState createState() {
     return BottomNavigationLayoutState();
@@ -21,6 +16,43 @@ class BottomNavigationLayout extends StatefulWidget {
 class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
   int currentSelectedIndex = 0;
   bool isSearch = false;
+
+  final storage = const FlutterSecureStorage();
+  final ApiClient _apiClient = ApiClient();
+
+  dynamic userRes;
+  dynamic data;
+  dynamic historyData;
+  dynamic giftHistoryData;
+  dynamic notificationData;
+  List<Widget> listScreens = [];
+  bool isComplete = false;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    String token = (await storage.read(key: 'accessToken')).toString();
+
+    data = await _apiClient.getAllGift(token);
+
+    userRes = await _apiClient.getAllUserData(token);
+
+    notificationData = await _apiClient.getNotification(token);
+
+    // print(data);
+    setState(() {
+      listScreens = <Widget>[
+        UserScreen(userData: userRes["user"]),
+        GiftScreen(giftData: data),
+        // CreatePage(),
+        NotificationScreen(notificationData: notificationData),
+      ];
+      isComplete = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +178,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                           // child: SingleChildScrollView(
                           child: IndexedStack(
                             index: currentSelectedIndex,
-                            children: widget.listScreens,
+                            children: listScreens,
                           ),
                           // scrollDirection: Axis.vertical,
                           // )

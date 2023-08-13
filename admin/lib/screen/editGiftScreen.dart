@@ -6,39 +6,43 @@ import 'package:flutter/material.dart';
 import 'package:admin/component/validator.dart';
 
 class EditGiftScreen extends StatelessWidget {
-  TextEditingController _nameGiftController = TextEditingController();
-  TextEditingController _vendorController = TextEditingController();
-  TextEditingController _linkController = TextEditingController();
-  TextEditingController _pointController = TextEditingController();
-  TextEditingController _totalController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-
-  @override
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      // You can do something with the address data here, e.g., save to database or display a success message.
-      // print("Address submitted successfully!");
-      // print("Name: $_name");
-      // print("Phone: $_phone");
-      // print("Province: $_address");
-    }
-  }
+  final dynamic data;
+  const EditGiftScreen({this.data});
 
   @override
   Widget build(BuildContext context) {
-    String _nameGift = "Quà con gấu";
-    String _vendor = "Bách Hóa Xanh";
-    String _link = "123123";
-    int _point;
-    int _total;
-    String _description = "Đây là mô tả";
+    final TextEditingController _nameGiftController = TextEditingController();
+    final TextEditingController _vendorController = TextEditingController();
+    final TextEditingController _linkController = TextEditingController();
+    final TextEditingController _pointController = TextEditingController();
+    final TextEditingController _totalController = TextEditingController();
+    final TextEditingController _descriptionController =
+        TextEditingController();
+
+    @override
+    final _formKey = GlobalKey<FormState>();
+
+    @override
+    void _submitForm() {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        // You can do something with the address data here, e.g., save to database or display a success message.
+        // print("Address submitted successfully!");
+        // print("Name: $_name");
+        // print("Phone: $_phone");
+        // print("Province: $_address");
+      }
+    }
+
+    String _nameGift = data["name"];
+    String _vendor = data["vendor"];
+    String _link = "link";
+    int _point = data["point"];
+    int _total = data["totalCount"];
+    String _description = data["description"];
     _nameGiftController.text = _nameGift;
     _vendorController.text = _vendor;
-    //_pointController.text = _point;
+    _pointController.text = _point.toString();
     _linkController.text = _link;
     _descriptionController.text = _description;
 

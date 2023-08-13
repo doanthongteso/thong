@@ -1,8 +1,8 @@
 import { Router } from "express";
-import {userAuth} from "../middleware/auth.js";import { getAllNotifications } from "../controller/notificationController.js";
+import { adminAuth, allAuth, userAuth } from "../middleware/auth.js";
+import { getAllNotifications } from "../controller/notificationController.js";
 
 const router = Router();
 
-router.get("/", userAuth, getAllNotifications);
+router.get("/", adminAuth, getAllNotifications);
 export default router;
-

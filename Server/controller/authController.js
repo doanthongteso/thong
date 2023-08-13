@@ -164,7 +164,7 @@ const adminLogin = async (req, res) => {
       };
       // user
       res.cookie("token", token);
-      return res.status(200).json(response);
+      return res.status(200).json({ message: "Success", response: response });
     }
     res.status(400).send("Invalid Email or Password");
   } catch (err) {

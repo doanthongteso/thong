@@ -18,15 +18,14 @@ class ApiClient {
   Future<dynamic> login(String email, String password) async {
     try {
       Response response = await _dio.post(
-        'http://127.0.0.1:3000/login',
+        'http://127.0.0.1:3000/admin-login',
         data: {
           'email': email,
           'password': password,
         },
         //queryParameters: {'apikey': ApiSecret.apiKey},
       );
-      print(response.statusCode);
-      return response;
+      return response.data;
     } on DioError catch (e) {
       return e.response!.data;
     }
@@ -61,10 +60,10 @@ class ApiClient {
   //   }
   // }
 
-  Future<dynamic> getUserProfileData(String accessToken) async {
+  Future<dynamic> getAllUserData(String accessToken) async {
     try {
       Response response = await _dio.get(
-        'http://127.0.0.1:3000/api/user/email',
+        'http://127.0.0.1:3000/api/user',
         options: Options(
           headers: {'Authorization': 'Bearer $accessToken'},
         ),
@@ -177,6 +176,21 @@ class ApiClient {
     try {
       Response response = await _dio.get(
         'http://localhost:3000/api/historyPoint/userHistory',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      print(response.statusCode);
+      return response.data;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> getNotification(String accessToken) async {
+    try {
+      Response response = await _dio.get(
+        'http://localhost:3000/api/notification',
         options: Options(
           headers: {'Authorization': 'Bearer $accessToken'},
         ),

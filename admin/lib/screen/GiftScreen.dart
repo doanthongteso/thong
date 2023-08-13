@@ -12,8 +12,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../SlidableButton.dart';
 
 class GiftScreen extends StatelessWidget {
+  final dynamic giftData;
+  const GiftScreen({this.giftData});
   @override
   Widget build(BuildContext context) {
+    print("Gift data:");
+    print(giftData);
     return Scaffold(
       body: Column(
         children: [
@@ -33,7 +37,7 @@ class GiftScreen extends StatelessWidget {
                 child: const Text('Tạo mới')),
           ),
           Expanded(
-            child: GiftList(),
+            child: GiftList(data: giftData),
           ),
         ],
       ),
@@ -42,33 +46,32 @@ class GiftScreen extends StatelessWidget {
 }
 
 class GiftList extends StatelessWidget {
-  List<Widget> messageList = [
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-  ];
+  final dynamic data;
+  const GiftList({this.data});
 
   Widget build(BuildContext context) {
+    List<Widget> messageList = [];
+    data["gifts"].forEach((item) {
+      messageList.add(NotificationNOption(data: item));
+    });
     return Container(
       child: ListView(
         scrollDirection: Axis.vertical,
         children: messageList,
       ),
     );
-    ;
   }
 }
 
 class NotificationNOption extends StatelessWidget {
+  final dynamic data;
+  const NotificationNOption({this.data});
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      child: NotificationItem(),
+      child: NotificationItem(
+        data: data,
+      ),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
         children: [
@@ -97,6 +100,8 @@ class NotificationNOption extends StatelessWidget {
 }
 
 class NotificationItem extends StatelessWidget {
+  final dynamic data;
+  const NotificationItem({this.data});
   @override
   Future<void> _showDeleteConfirmation(BuildContext context) async {
     bool confirmed = await showDialog(
@@ -154,8 +159,7 @@ class NotificationItem extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage('assets/images/logo.jpg'),
-                    fit: BoxFit.cover)),
+                    image: NetworkImage(data["imgUrl"]), fit: BoxFit.cover)),
           ),
           Expanded(
             child: Container(
@@ -165,7 +169,7 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tên quà tặng',
+                    'Tên quà tặng: ${data["name"]}',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -176,7 +180,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Nhà phân phối',
+                      'Nhà phân phối: ${data["vendor"]}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -186,7 +190,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Point : 100',
+                      'Point : ${data["point"]}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -196,7 +200,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Còn lại : 999',
+                      'Còn lại : ${data["totalCount"]}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -215,7 +219,7 @@ class NotificationItem extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return EditGiftScreen();
+                          return EditGiftScreen(data: data);
                         },
                       ));
                     },

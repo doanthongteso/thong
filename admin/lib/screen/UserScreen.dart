@@ -4,8 +4,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../SlidableButton.dart';
 
 class UserScreen extends StatelessWidget {
+  final dynamic userData;
+  const UserScreen({this.userData});
   @override
   Widget build(BuildContext context) {
+    print("User data:");
+    print(userData);
     return Scaffold(
       body: Column(
         children: [
@@ -13,7 +17,9 @@ class UserScreen extends StatelessWidget {
             height: 10,
           ),
           Expanded(
-            child: GiftList(),
+            child: GiftList(
+              data: userData,
+            ),
           ),
         ],
       ),
@@ -22,18 +28,14 @@ class UserScreen extends StatelessWidget {
 }
 
 class GiftList extends StatelessWidget {
-  List<Widget> messageList = [
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-    NotificationNOption(),
-  ];
+  final dynamic data;
+  const GiftList({this.data});
 
   Widget build(BuildContext context) {
+    List<Widget> messageList = [];
+    data.forEach((item) {
+      messageList.add(NotificationNOption(data: item));
+    });
     return Container(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -45,10 +47,13 @@ class GiftList extends StatelessWidget {
 }
 
 class NotificationNOption extends StatelessWidget {
+  final dynamic data;
+  const NotificationNOption({this.data});
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      child: NotificationItem(),
+      child: NotificationItem(data: data),
       endActionPane: ActionPane(
         motion: DrawerMotion(),
         children: [
@@ -77,6 +82,8 @@ class NotificationNOption extends StatelessWidget {
 }
 
 class NotificationItem extends StatelessWidget {
+  final dynamic data;
+  const NotificationItem({this.data});
   Future<void> _showLockConfirmation(BuildContext context) async {
     bool confirmed = await showDialog(
       context: context,
@@ -112,6 +119,7 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(data);
     return Container(
       margin: EdgeInsets.all(8),
       padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -135,7 +143,7 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tên người dùng',
+                    "Tên: " + data["name"],
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -146,7 +154,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Địa chỉ : Cẩm Xuyên, Hà Tĩnh',
+                      "Địa chỉ: "+data["address"],
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -156,7 +164,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Point : 100',
+                      "Tổng điểm: " + data["totalPoint"].toString(),
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -166,7 +174,7 @@ class NotificationItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(
-                      'Ngày tạo: 20/10/2020',
+                      "Nhày tạo: " + data["createdAt"].toString(),
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
