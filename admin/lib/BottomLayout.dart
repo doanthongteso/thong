@@ -144,7 +144,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                             MaterialTapTargetSize.shrinkWrap,
                                       ),
                                       child: Icon(
-                                        Icons.search,
+                                        Icons.logout_outlined,
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ),

@@ -18,6 +18,9 @@ class EditGiftScreen extends StatelessWidget {
     final TextEditingController _totalController = TextEditingController();
     final TextEditingController _descriptionController =
         TextEditingController();
+    final List<String> items = ['New', 'Card', 'Hot'];
+
+    String? _selectedCategory;
 
     @override
     final _formKey = GlobalKey<FormState>();
@@ -107,6 +110,26 @@ class EditGiftScreen extends StatelessWidget {
                   _link = value!;
                 },
               ),
+              Row(
+                children: [
+                  Text("Danh mục"),
+                  SizedBox(width: 20),
+                  DropdownButton<String>(
+                    value: _selectedCategory,
+                    onChanged: (String? newValue) {
+                      _selectedCategory = newValue;
+                    },
+                    items: <String>['New', 'Hot', 'Card']
+                        .map<DropdownMenuItem<String>>(
+                          (String value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+              ),
               TextFormField(
                 controller: _pointController,
                 decoration: InputDecoration(labelText: 'Point'),
@@ -150,8 +173,6 @@ class EditGiftScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  //onPressed: registerUsers ,
-
                   onPressed: () => {
                     //registerUsers(),
                     Navigator.push(

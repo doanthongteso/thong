@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:admin/component/validator.dart';
 
-class CreateGiftScreen extends StatelessWidget {
+class CreateGiftScreen extends StatefulWidget {
+  @override
+  _CreateGiftScreenState createState() => _CreateGiftScreenState();
+}
+
+class _CreateGiftScreenState extends State<CreateGiftScreen> {
   TextEditingController _nameGiftController = TextEditingController();
   TextEditingController _vendorController = TextEditingController();
   TextEditingController _linkController = TextEditingController();
@@ -28,6 +33,7 @@ class CreateGiftScreen extends StatelessWidget {
     }
   }
 
+  String? _selectedCategory;
   @override
   Widget build(BuildContext context) {
     String _nameGift = "";
@@ -36,6 +42,7 @@ class CreateGiftScreen extends StatelessWidget {
     int _point;
     int _total;
     String _description = "";
+
     // _nameController.text = _name;
     // _phoneController.text = _phone;
     // _addressController.text = _address;
@@ -100,6 +107,28 @@ class CreateGiftScreen extends StatelessWidget {
                 onSaved: (value) {
                   _link = value!;
                 },
+              ),
+              Row(
+                children: [
+                  Text("Danh mục"),
+                  SizedBox(width: 20),
+                  DropdownButton<String>(
+                    value: _selectedCategory,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedCategory = newValue;
+                      });
+                    },
+                    items: <String>['New', 'Hot', 'Card']
+                        .map<DropdownMenuItem<String>>(
+                          (String value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
               TextFormField(
                 controller: _pointController,
