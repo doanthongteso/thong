@@ -47,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
 // Write value
       FlutterSecureStorage.setMockInitialValues({});
 
-      //print(res);
+      print(res);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       if (res["message"] == "Success") {
         // print(res);
-        print(res["response"]['token']);
+        // print(res);
         await storage.write(
             key: 'accessToken', value: res["response"]['token']);
         Navigator.push(context,

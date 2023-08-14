@@ -7,44 +7,45 @@ import 'package:flutter/material.dart';
 import 'package:admin/component/validator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class EditGiftScreen extends StatelessWidget {
+class UpdateGiftScreen extends StatefulWidget {
   final dynamic data;
-  const EditGiftScreen({this.data});
+  const UpdateGiftScreen({this.data});
+  @override
+  _CreateGiftScreenState createState() => _CreateGiftScreenState();
+}
+
+class _CreateGiftScreenState extends State<UpdateGiftScreen> {
+  TextEditingController _nameGiftController = TextEditingController();
+  TextEditingController _vendorController = TextEditingController();
+  TextEditingController _linkController = TextEditingController();
+  TextEditingController _pointController = TextEditingController();
+  TextEditingController _totalController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController _nameGiftController = TextEditingController();
-    final TextEditingController _vendorController = TextEditingController();
-    final TextEditingController _linkController = TextEditingController();
-    final TextEditingController _pointController = TextEditingController();
-    final TextEditingController _totalController = TextEditingController();
-    final TextEditingController _descriptionController =
-        TextEditingController();
-    final List<String> items = ['New', 'Card', 'Hot'];
+  final _formKey = GlobalKey<FormState>();
 
-    String? _selectedCategory;
-
-    @override
-    final _formKey = GlobalKey<FormState>();
-
-    @override
-    void _submitForm() {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        // You can do something with the address data here, e.g., save to database or display a success message.
-        // print("Address submitted successfully!");
-        // print("Name: $_name");
-        // print("Phone: $_phone");
-        // print("Province: $_address");
-      }
+  @override
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // You can do something with the address data here, e.g., save to database or display a success message.
+      // print("Address submitted successfully!");
+      // print("Name: $_name");
+      // print("Phone: $_phone");
+      // print("Province: $_address");
     }
+  }
 
-    void updateGift() async {
+  String? _selectedCategory;
+  @override
+  Widget build(BuildContext context) {
+    void createGift() async {
       final ApiClient _apiClient = ApiClient();
       final storage = const FlutterSecureStorage();
 
       String token = (await storage.read(key: 'accessToken')).toString();
-      dynamic res = await _apiClient.editGift(token, data["id"], {
+      dynamic res = await _apiClient.editGift(token, widget.data["id"], {
         "name": _nameGiftController.text,
         "totalCount": _totalController.text,
         "description": _descriptionController.text,
@@ -58,26 +59,32 @@ class EditGiftScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => BottomNavigationLayout(
-                    selectedScreen: 2,
+                    selectedScreen: 1,
                   )));
     }
 
-    String _nameGift = data["name"];
-    String _vendor = data["vendor"];
-    String _link = "link";
-    int _point = data["point"];
-    int _total = data["totalCount"];
-    String _description = data["description"];
+    String _nameGift = widget.data["name"];
+    String _vendor = widget.data["vendor"];
+    String _link = widget.data["imgUrl"];
+    int _point = widget.data["point"];
+    int _total = widget.data["totalCount"];
+    String _description = widget.data["description"];
     _nameGiftController.text = _nameGift;
     _vendorController.text = _vendor;
     _pointController.text = _point.toString();
     _linkController.text = _link;
     _descriptionController.text = _description;
+    _totalController.text = _total.toString();
+    _selectedCategory = widget.data["category"];
+
+    // _nameController.text = _name;
+    // _phoneController.text = _phone;
+    // _addressController.text = _address;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Sửa quà tặng',
+          'Tạo quà tặng',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -142,7 +149,9 @@ class EditGiftScreen extends StatelessWidget {
                   DropdownButton<String>(
                     value: _selectedCategory,
                     onChanged: (String? newValue) {
-                      _selectedCategory = newValue;
+                      setState(() {
+                        _selectedCategory = newValue;
+                      });
                     },
                     items: <String>['New', 'Hot', 'Card']
                         .map<DropdownMenuItem<String>>(
@@ -198,9 +207,11 @@ class EditGiftScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  //onPressed: registerUsers ,
+
                   onPressed: () => {
                     //registerUsers(),
-                    updateGift()
+                    createGift()
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.indigo,

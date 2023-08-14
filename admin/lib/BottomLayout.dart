@@ -1,6 +1,7 @@
 import 'package:admin/screen/GiftScreen.dart';
 import 'package:admin/screen/NotificationScreen.dart';
 import 'package:admin/screen/UserScreen.dart';
+import 'package:admin/screen/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/api/api_admin.dart';
@@ -40,6 +41,12 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
     setState(() {
       currentSelectedIndex = widget.selectedScreen;
     });
+  }
+
+  void logout() async {
+    await storage.delete(key: "accessToken");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   void getData() async {
@@ -156,9 +163,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                           )
                                         : TextButton(
                                             onPressed: () {
-                                              setState(() {
-                                                isSearch = false;
-                                              });
+                                              logout();
                                             },
                                             style: TextButton.styleFrom(
                                               padding: EdgeInsets.all(8),
@@ -168,7 +173,7 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                                                       .shrinkWrap,
                                             ),
                                             child: Icon(
-                                              Icons.search,
+                                              Icons.logout_outlined,
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
@@ -178,44 +183,18 @@ class BottomNavigationLayoutState extends State<BottomNavigationLayout> {
                         ],
                       ),
                     ),
-                    Container(
-                      child: (currentSelectedIndex == 2 ||
-                              currentSelectedIndex == 4)
-                          ? null
-                          : Container(
-                              child: (isSearch)
-                                  ? TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          isSearch = false;
-                                        });
-                                      },
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.all(8),
-                                        minimumSize: Size.zero,
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      child: Icon(
-                                        Icons.close_rounded,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    )
-                                  : TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          isSearch = false;
-                                        });
-                                      },
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.all(8),
-                                        minimumSize: Size.zero,
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      child: Icon(
-                                        Icons.logout_outlined,
-                                        color: Theme.of(context).primaryColor,
+                    Expanded(
+                        child: (isSearch)
+                            ? Container(
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                child: ListView.separated(
+                                  itemCount: 13,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 50,
+                                      child: Text(
+                                        'Hello ' + index.toString(),
+                                        style: TextStyle(fontSize: 16),
                                       ),
                                       alignment: Alignment.centerLeft,
                                     );

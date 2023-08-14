@@ -275,4 +275,51 @@ class ApiClient {
       return e.response!.data;
     }
   }
+
+
+    Future<dynamic> editGift(
+      String accessToken, int notiId, dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/gift/update/${notiId}',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> createGift(String accessToken, dynamic data) async {
+    try {
+      Response response = await _dio.post(
+        'http://127.0.0.1:3000/api/gift/create/',
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> deleteGift(
+      String accessToken, int notiId) async {
+    try {
+      Response response = await _dio.delete(
+        'http://127.0.0.1:3000/api/gift/delete/${notiId}',
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
+      return response;
+    } on DioError catch (e) {
+      return e.response!.data;
+    }
+  }
 }

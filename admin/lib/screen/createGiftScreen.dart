@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:admin/BottomLayout.dart';
+import 'package:admin/api/api_admin.dart';
 import 'package:admin/screen/GiftScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin/component/validator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CreateGiftScreen extends StatefulWidget {
   @override
@@ -36,6 +38,29 @@ class _CreateGiftScreenState extends State<CreateGiftScreen> {
   String? _selectedCategory;
   @override
   Widget build(BuildContext context) {
+    void createGift() async {
+      final ApiClient _apiClient = ApiClient();
+      final storage = const FlutterSecureStorage();
+
+      String token = (await storage.read(key: 'accessToken')).toString();
+      dynamic res = await _apiClient.createGift(token, {
+        "name": _nameGiftController.text,
+        "totalCount": _totalController.text,
+        "description": _descriptionController.text,
+        "point": _pointController.text,
+        "category": _selectedCategory,
+        "vendor": _vendorController.text,
+        "imgUrl": _linkController.text,
+      });
+      print(res);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNavigationLayout(
+                    selectedScreen: 1,
+                  )));
+    }
+
     String _nameGift = "";
     String _vendor = "";
     String _link = "";
@@ -177,11 +202,7 @@ class _CreateGiftScreenState extends State<CreateGiftScreen> {
 
                   onPressed: () => {
                     //registerUsers(),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavigationLayout()),
-                    ),
+                    createGift()
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.indigo,

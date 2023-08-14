@@ -5,7 +5,7 @@ import { generateCardCode } from "../utils/generateNumber.js";
 import Card from "../model/Card.js";
 const getAllGift = async (req, res) => {
   try {
-    const gifts = await Gift.findAll();
+    const gifts = await Gift.findAll({ order: [["createdAt", "DESC"]] });
     return res.status(200).json({ gifts });
   } catch (error) {
     console.log(error);
@@ -65,4 +65,56 @@ const giftExchange = async (req, res) => {
   }
 };
 
-export { getAllGift, getGiftByCategory, giftExchange };
+const createGift = async (req, res) => {
+  try {
+    await Gift.create({
+      name: req.body.name,
+      totalCount: req.body.totalCount,
+      description: req.body.description,
+      point: req.body.point,
+      category: req.body.category,
+      vendor: req.body.vendor,
+      imgUrl: req.body.imgUrl,
+    });
+    return res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const updateGift = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const notification = await Gift.update(
+      {
+        name: req.body.name,
+        totalCount: req.body.totalCount,
+        description: req.body.description,
+        point: req.body.point,
+        category: req.body.category,
+        vendor: req.body.vendor,
+        imgUrl: req.body.imgUrl,
+      },
+      { where: { id: id } }
+    );
+    return res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const deleteGift = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Gift.destroy({ where: { id: id } });
+    return res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  getAllGift,
+  getGiftByCategory,
+  giftExchange,
+  createGift,
+  updateGift,
+  deleteGift,
+};
